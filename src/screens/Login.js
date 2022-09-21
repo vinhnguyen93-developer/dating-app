@@ -7,15 +7,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import * as Animatable from 'react-native-animatable';
 
 import SocialButton from '../components/SocialButton';
 
-const Login = () => {
-  const navigation = useNavigation();
-
+const Login = ({navigation}) => {
   const [socialLogin, setSocialLogin] = useState(false);
 
   useLayoutEffect(() => {
@@ -47,31 +44,26 @@ const Login = () => {
             <SocialButton
               icon={'google'}
               title="SIGN IN WITH GOOGLE"
-              bottom={200}
+              bottom={120}
             />
 
             <SocialButton
               icon={'facebook'}
               title="SIGN IN WITH FACEBOOK"
-              bottom={140}
-            />
-
-            <SocialButton
-              icon={'comment'}
-              title="SIGN IN WITH PHONE NUMBER"
-              bottom={80}
-              solid={true}
+              bottom={60}
             />
           </Animatable.View>
         ) : (
           <Animatable.View animation="fadeInDown">
-            <TouchableOpacity style={[styles.button, styles.buttonRegister]}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Register')}
+              style={[styles.button, styles.buttonRegister]}>
               <Text style={[styles.text, styles.textRegister]}>
                 CREATE ACCOUNT
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => setSocialLogin(true)}
+              onPress={() => navigation.navigate('SignIn')}
               style={[styles.button, styles.buttonLogin]}>
               <Text style={[styles.text, styles.textLogin]}>SIGN IN</Text>
             </TouchableOpacity>

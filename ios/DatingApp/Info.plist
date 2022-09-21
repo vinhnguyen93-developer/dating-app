@@ -7,6 +7,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>FontAwesome5_Brands.ttf</string>
+		<string>Feather.ttf</string>
 		<string>FontAwesome5_Regular.ttf</string>
 		<string>FontAwesome5_Solid.ttf</string>
 		<string>FontAwesome.ttf</string>
