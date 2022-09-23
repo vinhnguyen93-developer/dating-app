@@ -1,4 +1,4 @@
-import React, {useLayoutEffect} from 'react';
+import React, {useLayoutEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -16,6 +16,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
 
+import {AuthContext} from '../context/AuthContext';
+
 const Register = ({navigation}) => {
   const [data, setData] = React.useState({
     email: '',
@@ -26,6 +28,8 @@ const Register = ({navigation}) => {
     confirm_secureTextEntry: true,
     isValidPassword: true,
   });
+
+  const {register} = useContext(AuthContext);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -191,7 +195,9 @@ const Register = ({navigation}) => {
             </Text>
           </View>
           <View style={styles.button}>
-            <TouchableOpacity style={styles.signIn} onPress={() => {}}>
+            <TouchableOpacity
+              style={styles.signIn}
+              onPress={() => register(data.email, data.password)}>
               <LinearGradient
                 colors={['#ff948f', '#fe3a85']}
                 style={styles.signIn}>

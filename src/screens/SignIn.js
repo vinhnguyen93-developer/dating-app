@@ -1,4 +1,4 @@
-import React, {useLayoutEffect} from 'react';
+import React, {useLayoutEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -13,17 +13,20 @@ import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
+
 import SocialButton from '../components/SocialButton';
+import {AuthContext} from '../context/AuthContext';
 
 const SignIn = ({navigation}) => {
   const [data, setData] = React.useState({
-    username: '',
+    email: '',
     password: '',
     check_textInputChange: false,
     secureTextEntry: true,
     isValidUser: true,
     isValidPassword: true,
   });
+  const {login} = useContext(AuthContext);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -35,14 +38,14 @@ const SignIn = ({navigation}) => {
     if (val.trim().length >= 4) {
       setData({
         ...data,
-        username: val,
+        email: val,
         check_textInputChange: true,
         isValidUser: true,
       });
     } else {
       setData({
         ...data,
-        username: val,
+        email: val,
         check_textInputChange: false,
         isValidUser: false,
       });
@@ -151,7 +154,9 @@ const SignIn = ({navigation}) => {
           </Text>
         </TouchableOpacity>
         <View style={styles.button}>
-          <TouchableOpacity style={styles.signIn}>
+          <TouchableOpacity
+            onPress={() => login(data.email, data.password)}
+            style={styles.signIn}>
             <LinearGradient
               colors={['#ff948f', '#fe3a85']}
               style={styles.signIn}>
