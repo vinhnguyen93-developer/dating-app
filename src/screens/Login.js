@@ -25,7 +25,6 @@ const Login = ({navigation}) => {
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
       <ImageBackground
-        resizeMethod="cover"
         style={styles.image}
         source={require('../assets/images/dating.png')}
       />

@@ -23,8 +23,6 @@ const SignIn = ({navigation}) => {
     password: '',
     check_textInputChange: false,
     secureTextEntry: true,
-    isValidUser: true,
-    isValidPassword: true,
   });
   const {login} = useContext(AuthContext);
 
@@ -40,14 +38,12 @@ const SignIn = ({navigation}) => {
         ...data,
         email: val,
         check_textInputChange: true,
-        isValidUser: true,
       });
     } else {
       setData({
         ...data,
         email: val,
         check_textInputChange: false,
-        isValidUser: false,
       });
     }
   };
@@ -57,13 +53,11 @@ const SignIn = ({navigation}) => {
       setData({
         ...data,
         password: val,
-        isValidPassword: true,
       });
     } else {
       setData({
         ...data,
         password: val,
-        isValidPassword: false,
       });
     }
   };
@@ -105,13 +99,6 @@ const SignIn = ({navigation}) => {
             </Animatable.View>
           ) : null}
         </View>
-        {data.isValidUser ? null : (
-          <Animatable.View animation="fadeInLeft" duration={500}>
-            <Text style={styles.errorMsg}>
-              Username must be 4 characters long.
-            </Text>
-          </Animatable.View>
-        )}
 
         <Text
           style={[
@@ -140,13 +127,6 @@ const SignIn = ({navigation}) => {
             )}
           </TouchableOpacity>
         </View>
-        {data.isValidPassword ? null : (
-          <Animatable.View animation="fadeInLeft" duration={500}>
-            <Text style={styles.errorMsg}>
-              Password must be 8 characters long.
-            </Text>
-          </Animatable.View>
-        )}
 
         <TouchableOpacity>
           <Text style={{color: '#fe3a85', marginTop: 15}}>
