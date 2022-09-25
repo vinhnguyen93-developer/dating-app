@@ -14,8 +14,8 @@ const StackNavigator = () => {
   const {user, setUser} = useContext(AuthContext);
   const [initializing, setInitializing] = useState(true);
 
-  const onAuthStateChanged = user => {
-    setUser(user);
+  const onAuthStateChanged = users => {
+    setUser(users);
     if (initializing) {
       setInitializing(false);
     }
@@ -27,7 +27,9 @@ const StackNavigator = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (initializing) return null;
+  if (initializing) {
+    return null;
+  }
 
   if (!user) {
     return (

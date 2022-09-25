@@ -2,9 +2,7 @@ import React, {useLayoutEffect, useContext} from 'react';
 import {
   View,
   Text,
-  Button,
   TouchableOpacity,
-  Dimensions,
   TextInput,
   Platform,
   StyleSheet,
@@ -15,18 +13,15 @@ import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
 
 import {AuthContext} from '../context/AuthContext';
 
 const Register = ({navigation}) => {
   const [data, setData] = React.useState({
-    email: '',
-    password: '',
-    confirm_password: '',
-    check_textInputChange: false,
     secureTextEntry: true,
     confirm_secureTextEntry: true,
-    isValidPassword: true,
   });
 
   const {register} = useContext(AuthContext);
@@ -36,45 +31,6 @@ const Register = ({navigation}) => {
       headerShown: false,
     });
   }, [navigation]);
-
-  const textInputChange = value => {
-    if (value.length !== 0) {
-      setData({
-        ...data,
-        email: value,
-        check_textInputChange: true,
-      });
-    } else {
-      setData({
-        ...data,
-        email: value,
-        check_textInputChange: false,
-      });
-    }
-  };
-
-  const handlePasswordChange = value => {
-    if (value.trim().length >= 8) {
-      setData({
-        ...data,
-        password: value,
-        isValidPassword: true,
-      });
-    } else {
-      setData({
-        ...data,
-        password: value,
-        isValidPassword: false,
-      });
-    }
-  };
-
-  const handleConfirmPasswordChange = value => {
-    setData({
-      ...data,
-      confirm_password: value,
-    });
-  };
 
   const updateSecureTextEntry = () => {
     setData({
@@ -90,124 +46,175 @@ const Register = ({navigation}) => {
     });
   };
 
+  const SignupSchema = Yup.object().shape({
+    email: Yup.string()
+      .email('Invalid email')
+      .required('Please enter your email address!'),
+    password: Yup.string()
+      .min(8)
+      .required('Please enter your password!')
+      .matches(
+        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!_@$%^&*-]).{8,}$/,
+        'Must contain minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character.',
+      ),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref('password')], 'Your password do not match!')
+      .required('Confirm password is required!'),
+  });
+
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
-      <View style={styles.header}>
-        <Animatable.View animation="fadeIn" style={styles.iconBack}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <FontAwesome5 name="angle-left" size={30} color="white" />
-          </TouchableOpacity>
-        </Animatable.View>
-
-        <Text style={styles.text_header}>Register Now!</Text>
-      </View>
-      <Animatable.View animation="fadeInUpBig" style={styles.footer}>
-        <ScrollView>
-          <Text style={styles.text_footer}>Email</Text>
-          <View style={styles.action}>
-            <FontAwesome5 name="user" color="#05375a" size={20} />
-            <TextInput
-              placeholder="Your Email"
-              style={styles.textInput}
-              autoCapitalize="none"
-              onChangeText={value => textInputChange(value)}
-            />
-            {data.check_textInputChange && (
-              <Animatable.View animation="bounceIn">
-                <FontAwesome5 name="check-circle" color="green" size={20} />
-              </Animatable.View>
-            )}
-          </View>
-
-          <Text
-            style={[
-              styles.text_footer,
-              {
-                marginTop: 35,
-              },
-            ]}>
-            Password
-          </Text>
-          <View style={styles.action}>
-            <Feather name="lock" color="#05375a" light size={20} />
-            <TextInput
-              placeholder="Your Password"
-              secureTextEntry={data.secureTextEntry ? true : false}
-              style={styles.textInput}
-              autoCapitalize="none"
-              onChangeText={value => handlePasswordChange(value)}
-            />
-            <TouchableOpacity onPress={updateSecureTextEntry}>
-              {data.secureTextEntry ? (
-                <Feather name="eye-off" color="grey" size={20} />
-              ) : (
-                <Feather name="eye" color="grey" size={20} />
-              )}
-            </TouchableOpacity>
-          </View>
-          {data.isValidPassword ? null : (
-            <Animatable.View animation="fadeInLeft" duration={500}>
-              <Text style={styles.errorMsg}>
-                Password must be 8 characters long.
-              </Text>
+    <Formik
+      initialValues={{
+        email: '',
+        password: '',
+        confirmPassword: '',
+      }}
+      validationSchema={SignupSchema}
+      onSubmit={values => register(values.email, values.password)}>
+      {({
+        values,
+        errors,
+        touched,
+        handleChange,
+        setFieldTouched,
+        isValid,
+        handleSubmit,
+      }) => (
+        <View style={styles.container}>
+          <StatusBar barStyle="light-content" />
+          <View style={styles.header}>
+            <Animatable.View animation="fadeIn" style={styles.iconBack}>
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <FontAwesome5 name="angle-left" size={30} color="white" />
+              </TouchableOpacity>
             </Animatable.View>
-          )}
 
-          <Text
-            style={[
-              styles.text_footer,
-              {
-                marginTop: 35,
-              },
-            ]}>
-            Confirm Password
-          </Text>
-          <View style={styles.action}>
-            <Feather name="lock" color="#05375a" size={20} />
-            <TextInput
-              placeholder="Confirm Your Password"
-              secureTextEntry={data.confirm_secureTextEntry ? true : false}
-              style={styles.textInput}
-              autoCapitalize="none"
-              onChangeText={value => handleConfirmPasswordChange(value)}
-            />
-            <TouchableOpacity onPress={updateConfirmSecureTextEntry}>
-              {data.secureTextEntry ? (
-                <Feather name="eye-off" color="grey" size={20} />
-              ) : (
-                <Feather name="eye" color="grey" size={20} />
+            <Text style={styles.text_header}>Register Now!</Text>
+          </View>
+          <Animatable.View animation="fadeInUpBig" style={styles.footer}>
+            <ScrollView>
+              <Text style={styles.text_footer}>Email</Text>
+              <View style={styles.action}>
+                <FontAwesome5 name="user" color="#05375a" size={20} />
+                <TextInput
+                  placeholder="Your Email"
+                  style={styles.textInput}
+                  autoCapitalize="none"
+                  value={values.email}
+                  onChangeText={handleChange('email')}
+                  onBlur={() => setFieldTouched('email')}
+                />
+                {!errors.email && (
+                  <Animatable.View animation="bounceIn">
+                    <FontAwesome5 name="check-circle" color="green" size={20} />
+                  </Animatable.View>
+                )}
+              </View>
+              {touched.email && errors.email && (
+                <Animatable.View animation="fadeInLeft" duration={500}>
+                  <Text style={styles.errorMsg}>{errors.email}</Text>
+                </Animatable.View>
               )}
-            </TouchableOpacity>
-          </View>
-          <View style={styles.textPrivate}>
-            <Text style={styles.color_textPrivate}>
-              By signing up you agree to our
-            </Text>
-            <Text style={[styles.color_textPrivate, {fontWeight: 'bold'}]}>
-              {' '}
-              Terms of service
-            </Text>
-            <Text style={styles.color_textPrivate}> and</Text>
-            <Text style={[styles.color_textPrivate, {fontWeight: 'bold'}]}>
-              {' '}
-              Privacy policy
-            </Text>
-          </View>
-          <View style={styles.button}>
-            <TouchableOpacity
-              style={styles.signIn}
-              onPress={() => register(data.email, data.password)}>
-              <LinearGradient
-                colors={['#ff948f', '#fe3a85']}
-                style={styles.signIn}>
-                <Text style={styles.textSign}>Sign Up</Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-      </Animatable.View>
-    </View>
+
+              <Text
+                style={[
+                  styles.text_footer,
+                  {
+                    marginTop: 35,
+                  },
+                ]}>
+                Password
+              </Text>
+              <View style={styles.action}>
+                <Feather name="lock" color="#05375a" light size={20} />
+                <TextInput
+                  placeholder="Your Password"
+                  secureTextEntry={data.secureTextEntry ? true : false}
+                  style={styles.textInput}
+                  autoCapitalize="none"
+                  value={values.password}
+                  onChangeText={handleChange('password')}
+                  onBlur={() => setFieldTouched('password')}
+                />
+                <TouchableOpacity onPress={updateSecureTextEntry}>
+                  {data.secureTextEntry ? (
+                    <Feather name="eye-off" color="grey" size={20} />
+                  ) : (
+                    <Feather name="eye" color="grey" size={20} />
+                  )}
+                </TouchableOpacity>
+              </View>
+              {touched.password && errors.password && (
+                <Animatable.View animation="fadeInLeft" duration={500}>
+                  <Text style={styles.errorMsg}>{errors.password}</Text>
+                </Animatable.View>
+              )}
+
+              <Text
+                style={[
+                  styles.text_footer,
+                  {
+                    marginTop: 35,
+                  },
+                ]}>
+                Confirm Password
+              </Text>
+              <View style={styles.action}>
+                <Feather name="lock" color="#05375a" size={20} />
+                <TextInput
+                  placeholder="Confirm Your Password"
+                  secureTextEntry={data.confirm_secureTextEntry ? true : false}
+                  style={styles.textInput}
+                  autoCapitalize="none"
+                  value={values.confirmPassword}
+                  onChangeText={handleChange('confirmPassword')}
+                  onBlur={() => setFieldTouched('confirmPassword')}
+                />
+                <TouchableOpacity onPress={updateConfirmSecureTextEntry}>
+                  {data.confirm_secureTextEntry ? (
+                    <Feather name="eye-off" color="grey" size={20} />
+                  ) : (
+                    <Feather name="eye" color="grey" size={20} />
+                  )}
+                </TouchableOpacity>
+              </View>
+              {touched.confirmPassword && errors.confirmPassword && (
+                <Animatable.View animation="fadeInLeft" duration={500}>
+                  <Text style={styles.errorMsg}>{errors.confirmPassword}</Text>
+                </Animatable.View>
+              )}
+
+              <View style={styles.textPrivate}>
+                <Text style={styles.color_textPrivate}>
+                  By signing up you agree to our
+                </Text>
+                <Text style={[styles.color_textPrivate, {fontWeight: 'bold'}]}>
+                  {' '}
+                  Terms of service
+                </Text>
+                <Text style={styles.color_textPrivate}> and</Text>
+                <Text style={[styles.color_textPrivate, {fontWeight: 'bold'}]}>
+                  {' '}
+                  Privacy policy
+                </Text>
+              </View>
+              <View style={styles.button}>
+                <TouchableOpacity
+                  style={styles.signIn}
+                  disabled={!isValid}
+                  onPress={handleSubmit}>
+                  <LinearGradient
+                    colors={isValid ? ['#ff948f', '#fe3a85'] : ['#999', '#999']}
+                    style={styles.signIn}>
+                    <Text style={styles.textSign}>Sign Up</Text>
+                  </LinearGradient>
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
+          </Animatable.View>
+        </View>
+      )}
+    </Formik>
   );
 };
 

@@ -19,7 +19,10 @@ export const AuthProvider = ({children}) => {
     try {
       await auth().createUserWithEmailAndPassword(email, password);
     } catch (error) {
-      console.log(error);
+      Alert.alert(
+        'Error!',
+        'The email address is already in use by another account.',
+      );
     }
   };
 
@@ -27,7 +30,7 @@ export const AuthProvider = ({children}) => {
     try {
       await auth().signOut();
     } catch (error) {
-      console.log(error);
+      Alert.alert('Something Wrong!', error);
     }
   };
 
