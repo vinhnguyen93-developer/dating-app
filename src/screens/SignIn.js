@@ -7,7 +7,6 @@ import {
   Platform,
   StyleSheet,
   StatusBar,
-  Alert,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
@@ -24,7 +23,7 @@ const SignIn = ({navigation}) => {
     check_textInputChange: false,
     secureTextEntry: true,
   });
-  const {login} = useContext(AuthContext);
+  const {login, loginWithGoogle, loginWithFacebook} = useContext(AuthContext);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -149,8 +148,16 @@ const SignIn = ({navigation}) => {
           </Text>
 
           <View style={{marginTop: 20}}>
-            <SocialButton title={'SIGN IN WITH GOOGLE'} icon="google" />
-            <SocialButton title={'SIGN IN WITH FACEBOOK'} icon="facebook" />
+            <SocialButton
+              login={loginWithGoogle}
+              title={'SIGN IN WITH GOOGLE'}
+              icon="google"
+            />
+            <SocialButton
+              login={loginWithFacebook}
+              title={'SIGN IN WITH FACEBOOK'}
+              icon="facebook"
+            />
           </View>
         </View>
       </Animatable.View>

@@ -2,9 +2,9 @@ import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-const SocialButton = ({icon, title, solid}) => {
+const SocialButton = ({icon, title, solid, login}) => {
   return (
-    <TouchableOpacity style={styles.buttonContainer}>
+    <TouchableOpacity onPress={() => login()} style={styles.buttonContainer}>
       <View style={styles.iconWrapper}>
         <FontAwesome5 name={icon} color={'#fe3a85'} solid={solid} size={16} />
       </View>
