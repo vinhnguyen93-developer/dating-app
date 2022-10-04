@@ -17,6 +17,7 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 
 import {useAuthContext} from '../context/AuthContext';
+import ButtonPrimary from '../components/ButtonPrimary';
 
 const Register = ({navigation}) => {
   const [data, setData] = React.useState({
@@ -203,13 +204,7 @@ const Register = ({navigation}) => {
                   style={styles.signIn}
                   disabled={!isValid}
                   onPress={handleSubmit}>
-                  <LinearGradient
-                    start={{x: 1, y: 0}}
-                    end={{x: 0, y: 0}}
-                    colors={isValid ? ['#ff948f', '#fe3a85'] : ['#999', '#999']}
-                    style={styles.signIn}>
-                    <Text style={styles.textSign}>Sign Up</Text>
-                  </LinearGradient>
+                  <ButtonPrimary title={'Sign Up'} active={isValid} />
                 </TouchableOpacity>
               </View>
             </ScrollView>
