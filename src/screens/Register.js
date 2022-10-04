@@ -16,7 +16,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 
-import {AuthContext} from '../context/AuthContext';
+import {useAuthContext} from '../context/AuthContext';
 
 const Register = ({navigation}) => {
   const [data, setData] = React.useState({
@@ -24,7 +24,7 @@ const Register = ({navigation}) => {
     confirm_secureTextEntry: true,
   });
 
-  const {register} = useContext(AuthContext);
+  const {register} = useAuthContext();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -204,6 +204,8 @@ const Register = ({navigation}) => {
                   disabled={!isValid}
                   onPress={handleSubmit}>
                   <LinearGradient
+                    start={{x: 1, y: 0}}
+                    end={{x: 0, y: 0}}
                     colors={isValid ? ['#ff948f', '#fe3a85'] : ['#999', '#999']}
                     style={styles.signIn}>
                     <Text style={styles.textSign}>Sign Up</Text>

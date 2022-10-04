@@ -1,10 +1,10 @@
 import React, {useContext} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
-import {AuthContext} from '../context/AuthContext';
+import {useAuthContext} from '../context/AuthContext';
 
 const Home = () => {
-  const {logout} = useContext(AuthContext);
+  const {logout} = useAuthContext();
 
   return (
     <View>
