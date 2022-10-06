@@ -1,9 +1,7 @@
 import * as actionTypes from '../types';
 
 const initialState = {
-  profile: {
-    name: 'Vinh',
-  },
+  profile: {},
   loading: false,
 };
 
