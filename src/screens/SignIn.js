@@ -9,13 +9,12 @@ import {
   StatusBar,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
 
-import SocialButton from '../components/SocialButton';
+import SocialButton from '../components/Button/SocialButton';
+import ButtonPrimary from '../components/Button/ButtonPrimary';
 import {useAuthContext} from '../context/AuthContext';
-import ButtonPrimary from '../components/ButtonPrimary';
 
 const SignIn = ({navigation}) => {
   const [data, setData] = React.useState({

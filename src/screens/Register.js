@@ -10,14 +10,13 @@ import {
   StatusBar,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 
 import {useAuthContext} from '../context/AuthContext';
-import ButtonPrimary from '../components/ButtonPrimary';
+import ButtonPrimary from '../components/Button/ButtonPrimary';
 
 const Register = ({navigation}) => {
   const [data, setData] = React.useState({

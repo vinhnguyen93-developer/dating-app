@@ -10,7 +10,7 @@ import {
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import * as Animatable from 'react-native-animatable';
 
-import SocialButton from '../components/SocialButton';
+import SocialButton from '../components/Button/SocialButton';
 
 const Login = ({navigation}) => {
   const [socialLogin, setSocialLogin] = useState(false);

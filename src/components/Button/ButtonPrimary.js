@@ -24,13 +24,10 @@ export default ButtonPrimary;
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    paddingTop: 16,
-    paddingBottom: 16,
+    paddingVertical: 16,
     borderRadius: 24,
     width: '100%',
     flexDirection: 'row',
-    paddingLeft: 25,
-    paddingRight: 25,
     justifyContent: 'center',
   },
   text: {

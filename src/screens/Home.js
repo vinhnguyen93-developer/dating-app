@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
-import ButtonPrimary from '../components/ButtonPrimary';
+import ButtonPrimary from '../components/Button/ButtonPrimary';
 import {useAuthContext} from '../context/AuthContext';
 
 const Home = () => {
