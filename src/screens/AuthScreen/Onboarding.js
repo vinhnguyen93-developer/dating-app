@@ -10,9 +10,9 @@ import {
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import * as Animatable from 'react-native-animatable';
 
-import SocialButton from '../components/Button/SocialButton';
+import SocialButton from '../../components/Button/SocialButton';
 
-const Login = ({navigation}) => {
+const Onboarding = ({navigation}) => {
   const [socialLogin, setSocialLogin] = useState(false);
 
   useLayoutEffect(() => {
@@ -26,7 +26,7 @@ const Login = ({navigation}) => {
       <StatusBar barStyle="light-content" />
       <ImageBackground
         style={styles.image}
-        source={require('../assets/images/dating.png')}
+        source={require('../../assets/images/dating.png')}
       />
 
       {socialLogin && (
@@ -73,7 +73,7 @@ const Login = ({navigation}) => {
   );
 };
 
-export default Login;
+export default Onboarding;
 
 const styles = StyleSheet.create({
   container: {

@@ -1,9 +1,9 @@
 import React, {useLayoutEffect} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-
-import ButtonPrimary from '../components/Button/ButtonPrimary';
-import {useAuthContext} from '../context/AuthContext';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+
+import ButtonPrimary from '../../components/Button/ButtonPrimary';
+import {useAuthContext} from '../../context/AuthContext';
 
 const Welcome = ({navigation}) => {
   const {logout} = useAuthContext();
@@ -19,7 +19,7 @@ const Welcome = ({navigation}) => {
       <View style={styles.wrapLogo}>
         <Image
           style={styles.logo}
-          source={require('../assets/images/logo-t.png')}
+          source={require('../../assets/images/logo-t.png')}
         />
       </View>
       <View style={styles.wrapTile}>
@@ -67,7 +67,9 @@ const Welcome = ({navigation}) => {
         </Text>
       </View>
 
-      <TouchableOpacity onPress={logout} style={styles.buttonAgree}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('First name')}
+        style={styles.buttonAgree}>
         <ButtonPrimary title={'I AGREE'} active={true} />
       </TouchableOpacity>
     </View>

@@ -12,11 +12,15 @@ GoogleSignin.configure({
 export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
 
   const loginWithEmailPassword = async (email, password) => {
     try {
-      await auth().signInWithEmailAndPassword(email, password);
+      setIsLoading(true);
+      await auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(() => setIsLoading(false));
     } catch (error) {
       Alert.alert('Something Wrong!', 'Email or password is incorrect!');
     }
@@ -24,7 +28,10 @@ export const AuthProvider = ({children}) => {
 
   const registerWithEmailPassword = async (email, password) => {
     try {
-      await auth().createUserWithEmailAndPassword(email, password);
+      setIsLoading(true);
+      await auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(() => setIsLoading(false));
     } catch (error) {
       Alert.alert(
         'Error!',
@@ -38,10 +45,14 @@ export const AuthProvider = ({children}) => {
     const {idToken} = await GoogleSignin.signIn();
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
+    setIsLoading(true);
+
     // Sign-in the user with the credential
     auth()
       .signInWithCredential(googleCredential)
-      .then(() => {})
+      .then(() => {
+        setIsLoading(false);
+      })
       .catch(error => Alert.alert('Error!', error));
   };
 
@@ -68,11 +79,13 @@ export const AuthProvider = ({children}) => {
       data.accessToken,
     );
 
+    setIsLoading(true);
+
     // Sign-in the user with the credential
     auth()
       .signInWithCredential(facebookCredential)
       .then(() => {
-        console.log('Login with facebook');
+        setIsLoading(false);
       })
       .catch(error =>
         Alert.alert(
@@ -100,6 +113,7 @@ export const AuthProvider = ({children}) => {
         loginWithGoogle,
         loginWithFacebook,
         logout,
+        isLoading,
       }}>
       {children}
     </AuthContext.Provider>

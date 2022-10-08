@@ -1,14 +1,21 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import auth from '@react-native-firebase/auth';
-import firebase from '@react-native-firebase/firestore';
+import fireStore from '@react-native-firebase/firestore';
 
 import {AuthContext} from '../context/AuthContext';
-import Login from '../screens/Login';
-import Register from '../screens/Register';
-import SignIn from '../screens/SignIn';
-import Home from '../screens/Home';
-import Welcome from '../screens/Welcome';
+
+// Auth screen
+import Onboarding from '../screens/AuthScreen/Onboarding';
+import Register from '../screens/AuthScreen/Register';
+import SignIn from '../screens/AuthScreen/SignIn';
+
+// Home screen
+import Home from '../screens/HomeScreen/Home';
+
+// User profile screen
+import Welcome from '../screens/ProfileScreen/Welcome';
+import FirstName from '../screens/ProfileScreen/FirstName';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,8 +34,8 @@ const StackNavigator = () => {
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
 
-    firebase()
-      .collection('user')
+    fireStore()
+      .collection('users')
       .doc(user?.uid)
       .onSnapshot(snapshot => {
         if (snapshot.exists) {
@@ -52,7 +59,7 @@ const StackNavigator = () => {
         defaultScreenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Onboarding" component={Onboarding} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="SignIn" component={SignIn} />
       </Stack.Navigator>
@@ -74,6 +81,7 @@ const StackNavigator = () => {
             headerShown: false,
           }}>
           <Stack.Screen name="Welcome" component={Welcome} />
+          <Stack.Screen name="First name" component={FirstName} />
         </Stack.Navigator>
       );
     }
