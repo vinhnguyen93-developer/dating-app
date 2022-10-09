@@ -16,6 +16,7 @@ import Home from '../screens/HomeScreen/Home';
 // User profile screen
 import Welcome from '../screens/ProfileScreen/Welcome';
 import FirstName from '../screens/ProfileScreen/FirstName';
+import MyBirthday from '../screens/ProfileScreen/MyBirthday';
 
 const Stack = createNativeStackNavigator();
 
@@ -82,6 +83,7 @@ const StackNavigator = () => {
           }}>
           <Stack.Screen name="Welcome" component={Welcome} />
           <Stack.Screen name="First name" component={FirstName} />
+          <Stack.Screen name="My birthday" component={MyBirthday} />
         </Stack.Navigator>
       );
     }

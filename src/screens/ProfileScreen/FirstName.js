@@ -1,4 +1,7 @@
 import React, {useLayoutEffect} from 'react';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
+import {useDispatch} from 'react-redux';
 import {
   StyleSheet,
   Text,
@@ -7,10 +10,9 @@ import {
   View,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import {Formik} from 'formik';
-import * as Yup from 'yup';
 
 import ButtonPrimary from '../../components/Button/ButtonPrimary';
+import {setUserInfo} from '../../redux/actions/auth';
 
 const FirstName = ({navigation}) => {
   useLayoutEffect(() => {
@@ -18,6 +20,8 @@ const FirstName = ({navigation}) => {
       headerShown: false,
     });
   }, [navigation]);
+
+  const dispatch = useDispatch();
 
   const FirstNameSchema = Yup.object().shape({
     firstName: Yup.string()
@@ -32,7 +36,10 @@ const FirstName = ({navigation}) => {
         firstName: '',
       }}
       validationSchema={FirstNameSchema}
-      onSubmit={() => {}}>
+      onSubmit={values => {
+        dispatch(setUserInfo(values));
+        navigation.navigate('My birthday');
+      }}>
       {({values, errors, handleChange, isValid, handleSubmit}) => (
         <View style={styles.container}>
           <View style={styles.wrapTile}>
