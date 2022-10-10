@@ -23,7 +23,7 @@ export default ButtonOutline;
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    paddingVertical: 16,
+    paddingVertical: 12,
     borderRadius: 26,
     width: '100%',
     borderWidth: 2,

@@ -64,6 +64,7 @@ const MyBirthday = ({navigation}) => {
 
   const handleSubmit = data => {
     dispatch(setUserInfo(data));
+    navigation.navigate('My gender');
   };
 
   return (
