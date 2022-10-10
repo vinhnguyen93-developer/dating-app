@@ -1,11 +1,8 @@
-import React, {
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import moment from 'moment';
 import {useDispatch} from 'react-redux';
+import * as Animatable from 'react-native-animatable';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import React, {useLayoutEffect, useMemo, useRef, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -13,12 +10,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import * as Animatable from 'react-native-animatable';
-import moment from 'moment';
 
 import ButtonPrimary from '../../components/Button/ButtonPrimary';
 import {setUserInfo} from '../../redux/actions/auth';
-import {useAuthContext} from '../../context/AuthContext';
 
 const MyBirthday = ({navigation}) => {
   useLayoutEffect(() => {
@@ -27,8 +21,6 @@ const MyBirthday = ({navigation}) => {
     });
   }, [navigation]);
 
-  const {logout} = useAuthContext();
-
   const day2 = useRef();
   const month1 = useRef();
   const month2 = useRef();
@@ -36,25 +28,53 @@ const MyBirthday = ({navigation}) => {
   const year2 = useRef();
   const year3 = useRef();
   const year4 = useRef();
-  const [day, setDay] = useState('');
-  const [month, setMonth] = useState('');
-  const [year, setYear] = useState('');
+
+  const [dayFirst, setDayFirst] = useState('');
+  const [daySecond, setDaySecond] = useState('');
+  const [monthFirst, setMonthFirst] = useState('');
+  const [monthSecond, setMonthSecond] = useState('');
+  const [yearOne, setYearOne] = useState('');
+  const [yearTwo, setYearTwo] = useState('');
+  const [yearThree, setYearThree] = useState('');
+  const [yearFour, setYearFour] = useState('');
+  const [dataUser, setDataUser] = useState({});
+
   const [birthdayValid, setBirthdayValid] = useState(false);
 
   const dispatch = useDispatch();
 
+  const day = dayFirst + daySecond;
+  const month = monthFirst + monthSecond;
+  const year = yearOne + yearTwo + yearThree + yearFour;
+
   useMemo(() => {
     const birthday = day + '/' + month + '/' + year;
-    console.log(birthday);
-
     const isBirthday = moment(birthday, 'DD/MM/YYYY', true).isValid();
+
+    const ages = Math.floor(
+      moment().diff(moment(birthday, 'DD/MM/YYYY'), 'years', true),
+    );
+
     isBirthday ? setBirthdayValid(true) : setBirthdayValid(false);
+    setDataUser({
+      birthday,
+      ages,
+    });
   }, [day, month, year]);
 
-  console.log(birthdayValid);
+  const handleSubmit = data => {
+    dispatch(setUserInfo(data));
+  };
 
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+        <Animatable.View animation="fadeIn" style={styles.iconBack}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <FontAwesome5Icon name="angle-left" size={34} color="#A1A0A0" />
+          </TouchableOpacity>
+        </Animatable.View>
+      </View>
       <View style={styles.wrapTile}>
         <Text style={styles.textTile}>My birthday is</Text>
       </View>
@@ -65,9 +85,10 @@ const MyBirthday = ({navigation}) => {
             style={styles.textInput}
             placeholder="D"
             onChangeText={value => {
-              setDay(value);
+              setDayFirst(value);
               day2.current.focus();
             }}
+            selectTextOnFocus
             keyboardType="number-pad"
             maxLength={1}
           />
@@ -75,7 +96,7 @@ const MyBirthday = ({navigation}) => {
             style={styles.textInput}
             placeholder="D"
             onChangeText={value => {
-              setDay(prev => prev + value);
+              setDaySecond(value);
               month1.current.focus();
             }}
             selectTextOnFocus
@@ -89,7 +110,7 @@ const MyBirthday = ({navigation}) => {
             style={styles.textInput}
             placeholder="M"
             onChangeText={value => {
-              setMonth(value);
+              setMonthFirst(value);
               month2.current.focus();
             }}
             selectTextOnFocus
@@ -101,7 +122,7 @@ const MyBirthday = ({navigation}) => {
             style={styles.textInput}
             placeholder="M"
             onChangeText={value => {
-              setMonth(prev => prev + value);
+              setMonthSecond(value);
               year1.current.focus();
             }}
             selectTextOnFocus
@@ -115,7 +136,7 @@ const MyBirthday = ({navigation}) => {
             style={styles.textInput}
             placeholder="Y"
             onChangeText={value => {
-              setYear(value);
+              setYearOne(value);
               year2.current.focus();
             }}
             selectTextOnFocus
@@ -127,7 +148,7 @@ const MyBirthday = ({navigation}) => {
             style={styles.textInput}
             placeholder="Y"
             onChangeText={value => {
-              setYear(prev => prev + value);
+              setYearTwo(value);
               year3.current.focus();
             }}
             selectTextOnFocus
@@ -139,7 +160,7 @@ const MyBirthday = ({navigation}) => {
             style={styles.textInput}
             placeholder="Y"
             onChangeText={value => {
-              setYear(prev => prev + value);
+              setYearThree(value);
               year4.current.focus();
             }}
             selectTextOnFocus
@@ -150,24 +171,19 @@ const MyBirthday = ({navigation}) => {
           <TextInput
             style={styles.textInput}
             placeholder="Y"
-            onChangeText={value => setYear(prev => prev + value)}
+            onChangeText={value => setYearFour(value)}
             keyboardType="number-pad"
             selectTextOnFocus
             maxLength={1}
             ref={year4}
           />
         </View>
-        {/* {errors.firstName && (
-          <Animatable.View animation="fadeInLeft" duration={500}>
-            <Text style={styles.errorMsg}>{errors.firstName}</Text>
-          </Animatable.View>
-        )} */}
         <Text style={styles.contentDescription}>Your age will be public.</Text>
       </View>
 
       <TouchableOpacity
         disabled={!birthdayValid}
-        onPress={logout}
+        onPress={() => handleSubmit(dataUser)}
         style={styles.buttonContinue}>
         <ButtonPrimary title={'CONTINUE'} active={birthdayValid} />
       </TouchableOpacity>
@@ -185,6 +201,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: '#FFFFFF',
     paddingTop: '25%',
+  },
+  header: {
+    marginLeft: 30,
+    marginBottom: 10,
   },
   wrapTile: {
     width: '100%',

@@ -1,9 +1,7 @@
 import * as actionTypes from '../types';
 
 const initialState = {
-  profile: {
-    name: 'vinh',
-  },
+  profile: {},
   loading: false,
 };
 
@@ -13,6 +11,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         profile: {
+          ...state.profile,
           ...action.payload.data,
         },
       };
