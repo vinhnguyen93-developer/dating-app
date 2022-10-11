@@ -2,13 +2,13 @@ import React from 'react';
 import {StyleSheet, Text} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-const ButtonPrimary = ({title, active = true}) => {
+const ButtonPrimary = ({title, active, type = 'lager'}) => {
   return (
     <LinearGradient
       start={{x: 1, y: 0}}
       end={{x: 0, y: 0}}
       colors={active ? ['#ff948f', '#fe3a85'] : ['#DBDBDB', '#DBDBDB']}
-      style={styles.buttonContainer}>
+      style={[styles.buttonContainer, type === 'sm' ? styles.sm : styles.lg]}>
       <Text
         style={[
           styles.text,
@@ -24,11 +24,17 @@ export default ButtonPrimary;
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    paddingVertical: 16,
+    paddingVertical: 14,
     borderRadius: 24,
-    width: '100%',
     flexDirection: 'row',
     justifyContent: 'center',
+  },
+  sm: {
+    paddingVertical: 12,
+    paddingHorizontal: 100,
+  },
+  lg: {
+    width: '100%',
   },
   text: {
     textAlign: 'center',

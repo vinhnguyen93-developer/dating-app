@@ -47,6 +47,7 @@ const ShowMe = ({navigation}) => {
         gender_expect: data,
       }),
     );
+    navigation.navigate('Interests');
   };
 
   return (

@@ -19,6 +19,7 @@ import FirstName from '../screens/ProfileScreen/FirstName';
 import MyBirthday from '../screens/ProfileScreen/MyBirthday';
 import MyGender from '../screens/ProfileScreen/MyGender';
 import ShowMe from '../screens/ProfileScreen/ShowMe';
+import Interests from '../screens/ProfileScreen/Interests';
 
 const Stack = createNativeStackNavigator();
 
@@ -88,6 +89,7 @@ const StackNavigator = () => {
           <Stack.Screen name="My birthday" component={MyBirthday} />
           <Stack.Screen name="My gender" component={MyGender} />
           <Stack.Screen name="Show me" component={ShowMe} />
+          <Stack.Screen name="Interests" component={Interests} />
         </Stack.Navigator>
       );
     }
