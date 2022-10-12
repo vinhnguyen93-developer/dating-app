@@ -116,6 +116,6 @@ const styles = StyleSheet.create({
   },
   buttonContinue: {
     marginHorizontal: 30,
-    marginTop: '75%',
+    marginTop: '80%',
   },
 });

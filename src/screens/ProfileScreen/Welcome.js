@@ -1,13 +1,17 @@
 import React, {useLayoutEffect} from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Image,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 import ButtonPrimary from '../../components/Button/ButtonPrimary';
-import {useAuthContext} from '../../context/AuthContext';
 
 const Welcome = ({navigation}) => {
-  const {logout} = useAuthContext();
-
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -16,6 +20,7 @@ const Welcome = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle="dark-content" />
       <View style={styles.wrapLogo}>
         <Image
           style={styles.logo}

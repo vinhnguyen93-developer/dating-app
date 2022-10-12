@@ -1,7 +1,7 @@
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import * as Animatable from 'react-native-animatable';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import React, {useLayoutEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -14,53 +14,9 @@ import {setUserInfo} from '../../redux/actions/auth';
 import ButtonPrimary from '../../components/Button/ButtonPrimary';
 import Tag from '../../components/Tag';
 import ModalCustom from '../../components/Modal';
-
-const tagsData = [
-  {
-    id: 1,
-    name: 'Gym',
-  },
-  {
-    id: 2,
-    name: 'Running',
-  },
-  {
-    id: 3,
-    name: 'Reading',
-  },
-  {
-    id: 4,
-    name: 'Travel',
-  },
-  {
-    id: 5,
-    name: 'Walking',
-  },
-  {
-    id: 6,
-    name: 'Coffee',
-  },
-  {
-    id: 7,
-    name: 'Road Trips',
-  },
-  {
-    id: 8,
-    name: 'Tattoos',
-  },
-  {
-    id: 9,
-    name: 'Language exchange',
-  },
-  {
-    id: 10,
-    name: 'K-pop',
-  },
-  {
-    id: 11,
-    name: 'Films',
-  },
-];
+import {selectorTags} from '../../redux/reducers/tags';
+import {getTags} from '../../redux/actions/tags';
+import {useAuthContext} from '../../context/AuthContext';
 
 const Interests = ({navigation}) => {
   useLayoutEffect(() => {
@@ -69,7 +25,10 @@ const Interests = ({navigation}) => {
     });
   }, [navigation]);
 
+  const {logout} = useAuthContext();
+
   const dispatch = useDispatch();
+  const tagsData = useSelector(selectorTags);
 
   const [tags, setTags] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -95,10 +54,16 @@ const Interests = ({navigation}) => {
   const handleSubmit = data => {
     dispatch(
       setUserInfo({
-        gender_expect: data,
+        tags: data,
       }),
     );
+
+    logout();
   };
+
+  useEffect(() => {
+    dispatch(getTags());
+  }, [dispatch]);
 
   return (
     <View style={styles.container}>
@@ -117,7 +82,7 @@ const Interests = ({navigation}) => {
         </Text>
       </View>
 
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.contentContainer}>
           {tagsData.map(tag => (
             <TouchableOpacity
@@ -135,7 +100,7 @@ const Interests = ({navigation}) => {
 
       <TouchableOpacity
         disabled={tags.length === 5 ? false : true}
-        onPress={() => handleSubmit()}
+        onPress={() => handleSubmit(tags)}
         style={styles.buttonContinue}>
         <ButtonPrimary
           title={`CONTINUE ${tags.length}/5`}
