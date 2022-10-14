@@ -16,7 +16,6 @@ import Tag from '../../components/Tag';
 import ModalCustom from '../../components/Modal';
 import {selectorTags} from '../../redux/reducers/tags';
 import {getTags} from '../../redux/actions/tags';
-import {useAuthContext} from '../../context/AuthContext';
 
 const Interests = ({navigation}) => {
   useLayoutEffect(() => {
@@ -24,8 +23,6 @@ const Interests = ({navigation}) => {
       headerShown: false,
     });
   }, [navigation]);
-
-  const {logout} = useAuthContext();
 
   const dispatch = useDispatch();
   const tagsData = useSelector(selectorTags);
@@ -58,7 +55,7 @@ const Interests = ({navigation}) => {
       }),
     );
 
-    logout();
+    navigation.navigate('My location');
   };
 
   useEffect(() => {
