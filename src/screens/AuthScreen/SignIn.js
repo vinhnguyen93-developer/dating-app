@@ -1,4 +1,4 @@
-import React, {useLayoutEffect} from 'react';
+import React, {useLayoutEffect, useMemo, useState} from 'react';
 import {
   View,
   Text,
@@ -24,6 +24,8 @@ const SignIn = ({navigation}) => {
     check_textInputChange: false,
     secureTextEntry: true,
   });
+  const [active, setActive] = useState(false);
+
   const {login, loginWithGoogle, loginWithFacebook, isLoading} =
     useAuthContext();
 
@@ -33,20 +35,18 @@ const SignIn = ({navigation}) => {
     });
   }, [navigation]);
 
+  useMemo(() => {
+    data.email !== '' && data.password !== ''
+      ? setActive(true)
+      : setActive(false);
+  }, [data.email, data.password]);
+
   const textInputChange = val => {
-    if (val.trim().length >= 4) {
-      setData({
-        ...data,
-        email: val,
-        check_textInputChange: true,
-      });
-    } else {
-      setData({
-        ...data,
-        email: val,
-        check_textInputChange: false,
-      });
-    }
+    setData({
+      ...data,
+      email: val,
+      check_textInputChange: true,
+    });
   };
 
   const handlePasswordChange = val => {
@@ -138,8 +138,9 @@ const SignIn = ({navigation}) => {
           <View style={styles.button}>
             <TouchableOpacity
               onPress={() => login(data.email, data.password)}
+              disabled={!active}
               style={styles.signIn}>
-              <ButtonPrimary title={'Sign In'} />
+              <ButtonPrimary title={'Sign In'} active={active} />
             </TouchableOpacity>
 
             <Text style={{marginTop: 30, fontWeight: 'bold', color: 'gray'}}>

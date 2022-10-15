@@ -22,6 +22,7 @@ export const AuthProvider = ({children}) => {
         .signInWithEmailAndPassword(email, password)
         .then(() => setIsLoading(false));
     } catch (error) {
+      setIsLoading(false);
       Alert.alert('Something Wrong!', 'Email or password is incorrect!');
     }
   };
