@@ -21,6 +21,7 @@ import MyGender from '../screens/ProfileScreen/MyGender';
 import ShowMe from '../screens/ProfileScreen/ShowMe';
 import Interests from '../screens/ProfileScreen/Interests';
 import MyLocation from '../screens/ProfileScreen/MyLocation';
+import MyPhoto from '../screens/ProfileScreen/MyPhoto';
 
 const Stack = createNativeStackNavigator();
 
@@ -92,6 +93,7 @@ const StackNavigator = () => {
           <Stack.Screen name="Show me" component={ShowMe} />
           <Stack.Screen name="Interests" component={Interests} />
           <Stack.Screen name="My location" component={MyLocation} />
+          <Stack.Screen name="My photo" component={MyPhoto} />
         </Stack.Navigator>
       );
     }

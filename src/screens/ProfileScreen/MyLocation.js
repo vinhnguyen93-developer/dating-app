@@ -9,7 +9,6 @@ import Feather from 'react-native-vector-icons/Feather';
 import ButtonPrimary from '../../components/Button/ButtonPrimary';
 import {setUserInfo} from '../../redux/actions/auth';
 import {city_data} from '../../utils/constants';
-import {useAuthContext} from '../../context/AuthContext';
 
 const MyLocation = ({navigation}) => {
   useLayoutEffect(() => {
@@ -19,7 +18,6 @@ const MyLocation = ({navigation}) => {
   }, [navigation]);
 
   const dispatch = useDispatch();
-  const {logout} = useAuthContext();
 
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
@@ -31,7 +29,7 @@ const MyLocation = ({navigation}) => {
       }),
     );
 
-    logout();
+    navigation.navigate('My photo');
   };
 
   return (

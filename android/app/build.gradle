@@ -147,6 +147,7 @@ android {
 
     defaultConfig {
         multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
         applicationId "com.datingapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
@@ -268,8 +269,7 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation 'com.facebook.android:facebook-android-sdk:latest.release'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
-    implementation project(':lottie-react-native')
-    implementation 'com.airbnb.android:lottie:5.1.1'
+    // implementation project(':lottie-react-native')
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'
