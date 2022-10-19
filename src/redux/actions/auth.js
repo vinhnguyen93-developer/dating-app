@@ -41,6 +41,7 @@ export const addUserProfile =
         photoUrl,
       },
     });
+
     const {auth} = getState();
 
     firestore()

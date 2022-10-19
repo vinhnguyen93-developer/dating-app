@@ -10,8 +10,8 @@ import Onboarding from '../screens/AuthScreen/Onboarding';
 import Register from '../screens/AuthScreen/Register';
 import SignIn from '../screens/AuthScreen/SignIn';
 
-// Home screen
-import Home from '../screens/HomeScreen/Home';
+// Screen with tab navigation
+import TabsNavigation from '../components/TabsNavigation';
 
 // User profile screen
 import Welcome from '../screens/ProfileScreen/Welcome';
@@ -40,16 +40,24 @@ const StackNavigator = () => {
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
 
-    fireStore()
-      .collection('users')
-      .doc(user?.uid)
-      .onSnapshot(snapshot => {
-        if (snapshot.exists) {
-          setIsProfileUpdate(true);
-        } else {
-          setIsProfileUpdate(false);
-        }
-      });
+    const getUserProfile = async () => {
+      if (user) {
+        await fireStore()
+          .collection('users')
+          .doc(user?.uid)
+          .onSnapshot(snapshot => {
+            if (snapshot.exists) {
+              setIsProfileUpdate(true);
+            } else {
+              setIsProfileUpdate(false);
+            }
+          });
+      } else {
+        setIsProfileUpdate(false);
+      }
+    };
+
+    getUserProfile();
 
     return subscriber; // unsubscribe on unmount
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -72,14 +80,7 @@ const StackNavigator = () => {
     );
   } else {
     if (isProfileUpdate) {
-      return (
-        <Stack.Navigator
-          defaultScreenOptions={{
-            headerShown: false,
-          }}>
-          <Stack.Screen name="Home" component={Home} />
-        </Stack.Navigator>
-      );
+      return <TabsNavigation />;
     } else {
       return (
         <Stack.Navigator
