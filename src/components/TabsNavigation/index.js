@@ -1,9 +1,11 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import Home from '../../screens/HomeScreen/Home';
+import LikeScreen from '../../screens/HomeScreen/Like';
+import ChatsScreen from '../../screens/HomeScreen/Chats';
+import ProfileScreen from '../../screens/HomeScreen/Profile';
 
 const Tabs = createBottomTabNavigator();
 
@@ -15,17 +17,28 @@ const TabsNavigation = () => {
           let iconName;
 
           if (route.name === 'Home') {
-            iconName = focused ? 'home' : 'home';
+            iconName = focused ? 'heart' : 'heart';
+          } else if (route.name === 'Like') {
+            iconName = focused ? 'th-large' : 'th-large';
+          } else if (route.name === 'Chats') {
+            iconName = focused ? 'comments' : 'comments';
+          } else if (route.name === 'Profile') {
+            iconName = focused ? 'user' : 'user';
           }
 
-          return <Feather name={iconName} size={size} color="#888888" />;
+          return (
+            <FontAwesome5Icon name={iconName} size={size} color={color} solid />
+          );
         },
+        tabBarShowLabel: false,
+        tabBarActiveTintColor: '#fe3a85',
       })}>
       <Tabs.Screen name="Home" component={Home} />
+      <Tabs.Screen name="Like" component={LikeScreen} />
+      <Tabs.Screen name="Chats" component={ChatsScreen} />
+      <Tabs.Screen name="Profile" component={ProfileScreen} />
     </Tabs.Navigator>
   );
 };
 
 export default TabsNavigation;
-
-const styles = StyleSheet.create({});
