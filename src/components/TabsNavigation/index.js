@@ -6,6 +6,7 @@ import Home from '../../screens/HomeScreen/Home';
 import LikeScreen from '../../screens/HomeScreen/Like';
 import ChatsScreen from '../../screens/HomeScreen/Chats';
 import ProfileScreen from '../../screens/HomeScreen/Profile';
+import LogoTitle from '../LogoTitle';
 
 const Tabs = createBottomTabNavigator();
 
@@ -32,8 +33,18 @@ const TabsNavigation = () => {
         },
         tabBarShowLabel: false,
         tabBarActiveTintColor: '#fe3a85',
+        tabBarStyle: {
+          borderTopWidth: 0,
+        },
       })}>
-      <Tabs.Screen name="Home" component={Home} />
+      <Tabs.Screen
+        options={{
+          headerTitle: props => <LogoTitle {...props} />,
+          headerShadowVisible: false,
+        }}
+        name="Home"
+        component={Home}
+      />
       <Tabs.Screen name="Like" component={LikeScreen} />
       <Tabs.Screen name="Chats" component={ChatsScreen} />
       <Tabs.Screen name="Profile" component={ProfileScreen} />
