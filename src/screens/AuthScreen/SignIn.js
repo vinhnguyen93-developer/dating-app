@@ -18,7 +18,7 @@ import ButtonPrimary from '../../components/Button/ButtonPrimary';
 import {useAuthContext} from '../../context/AuthContext';
 
 const SignIn = ({navigation}) => {
-  const [data, setData] = React.useState({
+  const [data, setData] = useState({
     email: '',
     password: '',
     check_textInputChange: false,

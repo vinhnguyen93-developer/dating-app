@@ -1,24 +1,102 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Swiper from 'react-native-deck-swiper';
 import LinearGradient from 'react-native-linear-gradient';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 const images = [
-  'https://images.pexels.com/photos/1391498/pexels-photo-1391498.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-  'MOhttps://images.pexels.com/photos/1468379/pexels-photo-1468379.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2RE',
+  {
+    images: [
+      'https://images.pexels.com/photos/1391498/pexels-photo-1391498.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+      'https://images.pexels.com/photos/1382731/pexels-photo-1382731.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1382734/pexels-photo-1382734.jpeg?auto=compress&cs=tinysrgb&w=800',
+    ],
+  },
+  {
+    images: [
+      'https://images.pexels.com/photos/884979/pexels-photo-884979.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1382730/pexels-photo-1382730.jpeg?auto=compress&cs=tinysrgb&w=800',
+    ],
+  },
+  {
+    images: [
+      'https://images.pexels.com/photos/672444/pexels-photo-672444.jpeg?auto=compress&cs=tinysrgb&w=800',
+    ],
+  },
 ];
 
 const Home = () => {
+  const [indexImage, setIndexImage] = useState(0);
+  const [likeActive, setLikeActive] = useState(false);
+
   return (
     <View style={styles.container}>
       <Swiper
         cards={images}
-        renderCard={card => {
+        renderCard={(card, index) => {
           return (
-            <View style={styles.card}>
-              <Image source={{uri: card}} style={styles.cardImage} />
+            <View key={index} style={styles.card}>
+              {card.images.length !== 1 && (
+                <>
+                  <View style={styles.wrapProgressBar}>
+                    {card.images.map((e, index) => (
+                      <View
+                        key={index}
+                        style={[
+                          styles.progressBar,
+                          indexImage === index
+                            ? styles.barActive
+                            : styles.barNoneActive,
+                        ]}
+                      />
+                    ))}
+                  </View>
+
+                  <View style={styles.wrapButtonNextImage}>
+                    <Pressable
+                      onPress={() => {
+                        if (
+                          indexImage ===
+                          card.images.length - card.images.length
+                        ) {
+                          setIndexImage(0);
+                        } else {
+                          setIndexImage(indexImage - 1);
+                        }
+                      }}
+                      style={styles.buttonNextImage}>
+                      <View />
+                    </Pressable>
+
+                    <Pressable
+                      onPress={() => {
+                        if (indexImage === card.images.length - 1) {
+                          setIndexImage(card.images.length - 1);
+                        } else {
+                          setIndexImage(indexImage + 1);
+                        }
+                      }}
+                      style={styles.buttonNextImage}>
+                      <View />
+                    </Pressable>
+                  </View>
+                </>
+              )}
+
+              <View>
+                <Image
+                  source={{uri: card.images[indexImage]}}
+                  style={styles.cardImage}
+                />
+              </View>
               <LinearGradient
                 colors={['#00000000', '#000000']}
                 style={styles.imageOverlay}>
@@ -38,7 +116,9 @@ const Home = () => {
                     </View>
                   </View>
                   <View>
-                    <Text>Icon</Text>
+                    <TouchableOpacity>
+                      <Feather name="alert-circle" size={28} color="#fff" />
+                    </TouchableOpacity>
                   </View>
                 </View>
                 <View style={styles.buttonContainer}>
@@ -59,13 +139,11 @@ const Home = () => {
           );
         }}
         onSwiped={cardIndex => {
+          setIndexImage(0);
           console.log(cardIndex);
         }}
         onSwipedAll={() => {
-          console.log('onSwipedAll');
-        }}
-        onTapCard={() => {
-          console.log('On tab card');
+          console.log('swipe all');
         }}
         overlayLabels={{
           left: {
@@ -112,9 +190,11 @@ const Home = () => {
             },
           },
         }}
+        showSecondCard={true}
+        stackSize={5}
         cardHorizontalMargin={4}
         cardVerticalMargin={10}
-        cardIndex={0}
+        cardIndex={indexImage}
         backgroundColor={'transparent'}
       />
     </View>
@@ -133,9 +213,8 @@ const styles = StyleSheet.create({
   card: {
     height: '77%',
     borderRadius: 10,
-    borderColor: '#E8E8E8',
     justifyContent: 'center',
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     position: 'relative',
   },
   cardImage: {
@@ -154,6 +233,7 @@ const styles = StyleSheet.create({
   userInfoContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'flex-end',
   },
   wrapName: {
     flexDirection: 'row',
@@ -196,5 +276,37 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     padding: 11,
     borderWidth: 1,
+  },
+  wrapProgressBar: {
+    position: 'absolute',
+    top: 10,
+    zIndex: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: '100%',
+  },
+  progressBar: {
+    borderWidth: 1.4,
+    marginHorizontal: 4,
+    borderRadius: 4,
+    width: 100,
+  },
+  barActive: {
+    borderColor: '#fff',
+  },
+  barNoneActive: {
+    borderColor: '#999',
+  },
+  wrapButtonNextImage: {
+    position: 'absolute',
+    zIndex: 2,
+    flexDirection: 'row',
+    width: '100%',
+    height: '70%',
+    top: 20,
+  },
+  buttonNextImage: {
+    height: '100%',
+    width: '50%',
   },
 });
