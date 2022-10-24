@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Swiper from 'react-native-deck-swiper';
 import LinearGradient from 'react-native-linear-gradient';
 import {
@@ -9,195 +9,200 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Lottie from 'lottie-react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import {useDispatch, useSelector} from 'react-redux';
 
-const images = [
-  {
-    images: [
-      'https://images.pexels.com/photos/1391498/pexels-photo-1391498.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      'https://images.pexels.com/photos/1382731/pexels-photo-1382731.jpeg?auto=compress&cs=tinysrgb&w=800',
-      'https://images.pexels.com/photos/1382734/pexels-photo-1382734.jpeg?auto=compress&cs=tinysrgb&w=800',
-    ],
-  },
-  {
-    images: [
-      'https://images.pexels.com/photos/884979/pexels-photo-884979.jpeg?auto=compress&cs=tinysrgb&w=800',
-      'https://images.pexels.com/photos/1382730/pexels-photo-1382730.jpeg?auto=compress&cs=tinysrgb&w=800',
-    ],
-  },
-  {
-    images: [
-      'https://images.pexels.com/photos/672444/pexels-photo-672444.jpeg?auto=compress&cs=tinysrgb&w=800',
-    ],
-  },
-];
+import {selectorProfile} from '../../redux/reducers/auth';
+import {getUsers} from '../../redux/actions/user';
+import {selectorLoading, selectorUser} from '../../redux/reducers/user';
 
 const Home = () => {
+  const dispatch = useDispatch();
+
+  const profile = useSelector(selectorProfile);
+  const users = useSelector(selectorUser);
+  const apiCalling = useSelector(selectorLoading);
+
   const [indexImage, setIndexImage] = useState(0);
-  const [likeActive, setLikeActive] = useState(false);
+
+  useEffect(() => {
+    dispatch(getUsers(profile?.city, profile?.gender_expect));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profile]);
 
   return (
-    <View style={styles.container}>
-      <Swiper
-        cards={images}
-        renderCard={(card, index) => {
-          return (
-            <View key={index} style={styles.card}>
-              {card.images.length !== 1 && (
-                <>
-                  <View style={styles.wrapProgressBar}>
-                    {card.images.map((e, index) => (
-                      <View
-                        key={index}
-                        style={[
-                          styles.progressBar,
-                          indexImage === index
-                            ? styles.barActive
-                            : styles.barNoneActive,
-                        ]}
-                      />
-                    ))}
-                  </View>
-
-                  <View style={styles.wrapButtonNextImage}>
-                    <Pressable
-                      onPress={() => {
-                        if (
-                          indexImage ===
-                          card.images.length - card.images.length
-                        ) {
-                          setIndexImage(0);
-                        } else {
-                          setIndexImage(indexImage - 1);
-                        }
-                      }}
-                      style={styles.buttonNextImage}>
-                      <View />
-                    </Pressable>
-
-                    <Pressable
-                      onPress={() => {
-                        if (indexImage === card.images.length - 1) {
-                          setIndexImage(card.images.length - 1);
-                        } else {
-                          setIndexImage(indexImage + 1);
-                        }
-                      }}
-                      style={styles.buttonNextImage}>
-                      <View />
-                    </Pressable>
-                  </View>
-                </>
-              )}
-
-              <View>
-                <Image
-                  source={{uri: card.images[indexImage]}}
-                  style={styles.cardImage}
-                />
-              </View>
-              <LinearGradient
-                colors={['#00000000', '#000000']}
-                style={styles.imageOverlay}>
-                <View style={styles.userInfoContainer}>
-                  <View>
-                    <View style={styles.wrapName}>
-                      <Text style={styles.name}>Enny Huỳnh</Text>
-                      <Text style={styles.age}>24</Text>
+    <>
+      <View style={styles.container}>
+        <Swiper
+          cards={users}
+          renderCard={(card, index) => {
+            return (
+              <View key={index} style={styles.card}>
+                {card?.photoUrl.length !== 1 && (
+                  <>
+                    <View style={styles.wrapProgressBar}>
+                      {card?.photoUrl.map((e, id) => (
+                        <View
+                          key={id}
+                          style={[
+                            styles.progressBar,
+                            indexImage === id
+                              ? styles.barActive
+                              : styles.barNoneActive,
+                          ]}
+                        />
+                      ))}
                     </View>
-                    <View style={styles.livingContainer}>
+
+                    <View style={styles.wrapButtonNextImage}>
+                      <Pressable
+                        onPress={() => {
+                          if (
+                            indexImage ===
+                            card?.photoUrl.length - card.photoUrl.length
+                          ) {
+                            setIndexImage(0);
+                          } else {
+                            setIndexImage(indexImage - 1);
+                          }
+                        }}
+                        style={styles.buttonNextImage}>
+                        <View />
+                      </Pressable>
+
+                      <Pressable
+                        onPress={() => {
+                          if (indexImage === card?.photoUrl.length - 1) {
+                            setIndexImage(card?.photoUrl.length - 1);
+                          } else {
+                            setIndexImage(indexImage + 1);
+                          }
+                        }}
+                        style={styles.buttonNextImage}>
+                        <View />
+                      </Pressable>
+                    </View>
+                  </>
+                )}
+
+                <View>
+                  <Image
+                    source={{uri: card?.photoUrl[indexImage]}}
+                    style={styles.cardImage}
+                  />
+                </View>
+                <LinearGradient
+                  colors={['#00000000', '#000000']}
+                  style={styles.imageOverlay}>
+                  <View style={styles.userInfoContainer}>
+                    <View>
+                      <View style={styles.wrapName}>
+                        <Text style={styles.name}>{card?.firstName}</Text>
+                        <Text style={styles.age}>{card?.age}</Text>
+                      </View>
+                      <View style={styles.livingContainer}>
+                        <FontAwesome5Icon
+                          name={'home'}
+                          size={12}
+                          color={'#fff'}
+                        />
+                        <Text
+                          style={styles.city}>{`Lives in ${card?.city}`}</Text>
+                      </View>
+                    </View>
+                    <View>
+                      <TouchableOpacity>
+                        <Feather name="alert-circle" size={28} color="#fff" />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                  <View style={styles.buttonContainer}>
+                    <TouchableOpacity style={styles.buttonNope}>
+                      <Feather name={'x'} size={30} color={'#FF3985'} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.buttonLike}>
                       <FontAwesome5Icon
-                        name={'home'}
-                        size={12}
-                        color={'#fff'}
+                        name={'heart'}
+                        size={24}
+                        color={'#14F68A'}
+                        solid
                       />
-                      <Text style={styles.city}>Lives in Hồ Chí Minh</Text>
-                    </View>
-                  </View>
-                  <View>
-                    <TouchableOpacity>
-                      <Feather name="alert-circle" size={28} color="#fff" />
                     </TouchableOpacity>
                   </View>
-                </View>
-                <View style={styles.buttonContainer}>
-                  <TouchableOpacity style={styles.buttonNope}>
-                    <Feather name={'x'} size={30} color={'#FF3985'} />
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.buttonLike}>
-                    <FontAwesome5Icon
-                      name={'heart'}
-                      size={24}
-                      color={'#14F68A'}
-                      solid
-                    />
-                  </TouchableOpacity>
-                </View>
-              </LinearGradient>
-            </View>
-          );
-        }}
-        onSwiped={cardIndex => {
-          setIndexImage(0);
-          console.log(cardIndex);
-        }}
-        onSwipedAll={() => {
-          console.log('swipe all');
-        }}
-        overlayLabels={{
-          left: {
-            title: 'NOPE',
-            style: {
-              label: {
-                borderColor: '#FF3985',
-                color: '#FF3985',
-                borderWidth: 3,
-                borderRadius: 3,
-                letterSpacing: 3,
-                paddingVertical: 2,
-                transform: [{rotate: '10deg'}],
-              },
-              wrapper: {
-                flexDirection: 'column',
-                alignItems: 'flex-end',
-                justifyContent: 'flex-start',
-                marginTop: 30,
-                marginLeft: -30,
+                </LinearGradient>
+              </View>
+            );
+          }}
+          onSwiped={cardIndex => {
+            setIndexImage(0);
+            console.log(cardIndex);
+          }}
+          onSwipedAll={() => {
+            console.log('swipe all');
+          }}
+          overlayLabels={{
+            left: {
+              title: 'NOPE',
+              style: {
+                label: {
+                  borderColor: '#FF3985',
+                  color: '#FF3985',
+                  borderWidth: 3,
+                  borderRadius: 3,
+                  letterSpacing: 3,
+                  paddingVertical: 2,
+                  transform: [{rotate: '10deg'}],
+                },
+                wrapper: {
+                  flexDirection: 'column',
+                  alignItems: 'flex-end',
+                  justifyContent: 'flex-start',
+                  marginTop: 30,
+                  marginLeft: -30,
+                },
               },
             },
-          },
-          right: {
-            title: 'LIKE',
-            style: {
-              label: {
-                borderColor: '#14F68A',
-                color: '#14F68A',
-                borderWidth: 3,
-                borderRadius: 3,
-                letterSpacing: 4,
-                paddingVertical: 1,
-                paddingHorizontal: 3,
-                transform: [{rotate: '-10deg'}],
-              },
-              wrapper: {
-                flexDirection: 'column',
-                alignItems: 'flex-start',
-                justifyContent: 'flex-start',
-                marginTop: 30,
-                marginLeft: 30,
+            right: {
+              title: 'LIKE',
+              style: {
+                label: {
+                  borderColor: '#14F68A',
+                  color: '#14F68A',
+                  borderWidth: 3,
+                  borderRadius: 3,
+                  letterSpacing: 4,
+                  paddingVertical: 1,
+                  paddingHorizontal: 3,
+                  transform: [{rotate: '-10deg'}],
+                },
+                wrapper: {
+                  flexDirection: 'column',
+                  alignItems: 'flex-start',
+                  justifyContent: 'flex-start',
+                  marginTop: 30,
+                  marginLeft: 30,
+                },
               },
             },
-          },
-        }}
-        showSecondCard={true}
-        stackSize={5}
-        cardHorizontalMargin={4}
-        cardVerticalMargin={10}
-        cardIndex={indexImage}
-        backgroundColor={'transparent'}
-      />
-    </View>
+          }}
+          stackSize={2}
+          cardHorizontalMargin={4}
+          cardVerticalMargin={10}
+          cardIndex={indexImage}
+          backgroundColor={'transparent'}
+        />
+      </View>
+      {apiCalling && (
+        <Lottie
+          style={styles.loading}
+          source={require('../../assets/animations/loading.json')}
+          autoPlay
+          loop
+        />
+      )}
+    </>
   );
 };
 
@@ -308,5 +313,8 @@ const styles = StyleSheet.create({
   buttonNextImage: {
     height: '100%',
     width: '50%',
+  },
+  loading: {
+    backgroundColor: 'rgba(255, 255, 255, 0.6)',
   },
 });

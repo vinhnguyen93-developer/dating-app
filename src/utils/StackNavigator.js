@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {useDispatch} from 'react-redux';
 import auth from '@react-native-firebase/auth';
 import fireStore from '@react-native-firebase/firestore';
 
@@ -22,11 +23,15 @@ import ShowMe from '../screens/ProfileScreen/ShowMe';
 import Interests from '../screens/ProfileScreen/Interests';
 import MyLocation from '../screens/ProfileScreen/MyLocation';
 import MyPhoto from '../screens/ProfileScreen/MyPhoto';
+import {setUserInfo} from '../redux/actions/auth';
 
 const Stack = createNativeStackNavigator();
 
 const StackNavigator = () => {
   const {user, setUser} = useContext(AuthContext);
+
+  const dispatch = useDispatch();
+
   const [initializing, setInitializing] = useState(true);
   const [isProfileUpdate, setIsProfileUpdate] = useState(true);
 
@@ -47,6 +52,7 @@ const StackNavigator = () => {
           .doc(user?.uid)
           .onSnapshot(snapshot => {
             if (snapshot.exists) {
+              dispatch(setUserInfo(snapshot.data()));
               setIsProfileUpdate(true);
             } else {
               setIsProfileUpdate(false);
