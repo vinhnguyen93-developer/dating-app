@@ -17,6 +17,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {selectorProfile} from '../../redux/reducers/auth';
 import {getUsers} from '../../redux/actions/user';
 import {selectorLoading, selectorUser} from '../../redux/reducers/user';
+import Tag from '../../components/Tag';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -102,15 +103,40 @@ const Home = () => {
                         <Text style={styles.name}>{card?.firstName}</Text>
                         <Text style={styles.age}>{card?.age}</Text>
                       </View>
-                      <View style={styles.livingContainer}>
-                        <FontAwesome5Icon
-                          name={'home'}
-                          size={12}
-                          color={'#fff'}
-                        />
-                        <Text
-                          style={styles.city}>{`Lives in ${card?.city}`}</Text>
-                      </View>
+                      {indexImage === 0 && (
+                        <View style={styles.livingContainer}>
+                          <FontAwesome5Icon
+                            name={'home'}
+                            size={12}
+                            color={'#fff'}
+                          />
+                          <Text
+                            style={
+                              styles.city
+                            }>{`Lives in ${card?.city}`}</Text>
+                        </View>
+                      )}
+                      {indexImage === 1 && card?.aboutMe ? (
+                        <View>
+                          <Text>{card?.aboutMe}</Text>
+                        </View>
+                      ) : (
+                        indexImage !== 0 && (
+                          <View style={styles.containerTags}>
+                            {card?.tags.map(tag => (
+                              <View key={tag.id} style={styles.wrapTag}>
+                                <Tag
+                                  tagName={tag.name}
+                                  active={profile?.tags.some(
+                                    item => item.id === tag.id,
+                                  )}
+                                  solid={true}
+                                />
+                              </View>
+                            ))}
+                          </View>
+                        )
+                      )}
                     </View>
                     <View>
                       <TouchableOpacity>
@@ -316,5 +342,17 @@ const styles = StyleSheet.create({
   },
   loading: {
     backgroundColor: 'rgba(255, 255, 255, 0.6)',
+  },
+  containerTags: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 8,
+    width: '90%',
+    zIndex: 20,
+  },
+  wrapTag: {
+    marginRight: 8,
+    marginBottom: 8,
   },
 });
