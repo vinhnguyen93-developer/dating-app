@@ -49,6 +49,7 @@ export const addUserProfile =
       .doc(userId)
       .set({
         ...auth.profile,
+        uid: userId,
         timestamp: firestore.FieldValue.serverTimestamp(),
       })
       .then(() => {

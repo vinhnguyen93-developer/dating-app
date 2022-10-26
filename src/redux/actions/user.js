@@ -8,7 +8,7 @@ export const getUsers = (city, gender) => async dispatch => {
 
     await firestore()
       .collection('users')
-      .where('gender_expect', '==', gender)
+      .where('gender', '==', gender)
       .where('city', '==', city)
       .onSnapshot(QuerySnapshot => {
         const users = QuerySnapshot.docs.map(doc => doc.data());

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Swiper from 'react-native-deck-swiper';
 import LinearGradient from 'react-native-linear-gradient';
 import {
@@ -21,6 +21,7 @@ import Tag from '../../components/Tag';
 
 const Home = () => {
   const dispatch = useDispatch();
+  const swipeRef = useRef(null);
 
   const profile = useSelector(selectorProfile);
   const users = useSelector(selectorUser);
@@ -37,6 +38,7 @@ const Home = () => {
     <>
       <View style={styles.container}>
         <Swiper
+          ref={swipeRef}
           cards={users}
           renderCard={(card, index) => {
             return (
@@ -145,10 +147,14 @@ const Home = () => {
                     </View>
                   </View>
                   <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.buttonNope}>
+                    <TouchableOpacity
+                      onPress={() => swipeRef.current.swipeLeft()}
+                      style={styles.buttonNope}>
                       <Feather name={'x'} size={30} color={'#FF3985'} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.buttonLike}>
+                    <TouchableOpacity
+                      onPress={() => swipeRef.current.swipeRight()}
+                      style={styles.buttonLike}>
                       <FontAwesome5Icon
                         name={'heart'}
                         size={24}
@@ -348,11 +354,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginTop: 8,
-    width: '90%',
+    width: '95%',
     zIndex: 20,
   },
   wrapTag: {
-    marginRight: 8,
+    marginRight: 6,
     marginBottom: 8,
   },
 });
