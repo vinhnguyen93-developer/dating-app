@@ -2,6 +2,7 @@ import * as actionTypes from '../types';
 
 const initState = {
   users: [],
+  userPasses: [],
   loading: false,
   message: '',
 };
@@ -24,6 +25,30 @@ const userReducer = (state = initState, action) => {
         ...state,
         message: action.payload.message,
         loading: false,
+      };
+    case actionTypes.SWIPED_NOPE_USER:
+      return {
+        ...state,
+      };
+    case actionTypes.SWIPED_NOPE_USER_SUCCESS:
+      return {
+        ...state,
+      };
+    case actionTypes.SWIPED_NOPE_USER_FAILED:
+      return {
+        ...state,
+      };
+    case actionTypes.SWIPED_LIKE_USER:
+      return {
+        ...state,
+      };
+    case actionTypes.SWIPED_LIKE_USER_SUCCESS:
+      return {
+        ...state,
+      };
+    case actionTypes.SWIPED_LIKE_USER_FAILED:
+      return {
+        ...state,
       };
     default:
       return {

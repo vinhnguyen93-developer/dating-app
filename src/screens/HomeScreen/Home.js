@@ -15,8 +15,8 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {selectorProfile} from '../../redux/reducers/auth';
-import {getUsers} from '../../redux/actions/user';
-import {selectorLoading, selectorUser} from '../../redux/reducers/user';
+import {getUsers, swipeLeft} from '../../redux/actions/user';
+import {selectorUser} from '../../redux/reducers/user';
 import Tag from '../../components/Tag';
 
 const Home = () => {
@@ -25,14 +25,16 @@ const Home = () => {
 
   const profile = useSelector(selectorProfile);
   const users = useSelector(selectorUser);
-  const apiCalling = useSelector(selectorLoading);
 
+  const [loading, setLoading] = useState(true);
   const [indexImage, setIndexImage] = useState(0);
 
   useEffect(() => {
-    dispatch(getUsers(profile?.city, profile?.gender_expect));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profile]);
+    dispatch(getUsers(profile?.city, profile?.gender_expect, profile?.uid));
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, [dispatch, profile]);
 
   return (
     <>
@@ -174,6 +176,9 @@ const Home = () => {
           onSwipedAll={() => {
             console.log('swipe all');
           }}
+          onSwipedLeft={cardIndex => {
+            dispatch(swipeLeft(cardIndex, profile?.uid));
+          }}
           overlayLabels={{
             left: {
               title: 'NOPE',
@@ -226,10 +231,10 @@ const Home = () => {
           backgroundColor={'transparent'}
         />
       </View>
-      {apiCalling && (
+      {loading && (
         <Lottie
           style={styles.loading}
-          source={require('../../assets/animations/loading.json')}
+          source={require('../../assets/animations/fade-circle.json')}
           autoPlay
           loop
         />
@@ -347,7 +352,7 @@ const styles = StyleSheet.create({
     width: '50%',
   },
   loading: {
-    backgroundColor: 'rgba(255, 255, 255, 0.6)',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
   },
   containerTags: {
     display: 'flex',
