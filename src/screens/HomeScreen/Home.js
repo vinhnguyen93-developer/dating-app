@@ -15,7 +15,7 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {selectorProfile} from '../../redux/reducers/auth';
-import {getUsers, swipeLeft} from '../../redux/actions/user';
+import {getUsers, swipeLeft, swipeRight} from '../../redux/actions/user';
 import {selectorUser} from '../../redux/reducers/user';
 import Tag from '../../components/Tag';
 
@@ -24,7 +24,7 @@ const Home = () => {
   const swipeRef = useRef(null);
 
   const profile = useSelector(selectorProfile);
-  const users = useSelector(selectorUser);
+  const {users} = useSelector(selectorUser);
 
   const [loading, setLoading] = useState(true);
   const [indexImage, setIndexImage] = useState(0);
@@ -178,6 +178,9 @@ const Home = () => {
           }}
           onSwipedLeft={cardIndex => {
             dispatch(swipeLeft(cardIndex, profile?.uid));
+          }}
+          onSwipedRight={cardIndex => {
+            dispatch(swipeRight(cardIndex, profile));
           }}
           overlayLabels={{
             left: {

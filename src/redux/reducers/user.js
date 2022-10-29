@@ -3,6 +3,7 @@ import * as actionTypes from '../types';
 const initState = {
   users: [],
   userPasses: [],
+  userSwipes: [],
   loading: false,
   message: '',
 };
@@ -21,6 +22,40 @@ const userReducer = (state = initState, action) => {
         loading: false,
       };
     case actionTypes.GET_USER_REQUEST_FAILED:
+      return {
+        ...state,
+        message: action.payload.message,
+        loading: false,
+      };
+    case actionTypes.GET_USER_PASSES_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case actionTypes.GET_USER_PASSES_REQUEST_SUCCESS:
+      return {
+        ...state,
+        userPasses: action.payload.data,
+        loading: false,
+      };
+    case actionTypes.GET_USER_PASSES_REQUEST_FAILED:
+      return {
+        ...state,
+        message: action.payload.message,
+        loading: false,
+      };
+    case actionTypes.GET_USER_SWIPED_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case actionTypes.GET_USER_SWIPED_REQUEST_SUCCESS:
+      return {
+        ...state,
+        userSwipes: action.payload.data,
+        loading: false,
+      };
+    case actionTypes.GET_USER_SWIPED_REQUEST_FAILED:
       return {
         ...state,
         message: action.payload.message,
@@ -57,7 +92,7 @@ const userReducer = (state = initState, action) => {
   }
 };
 
-export const selectorUser = state => state.user.users;
+export const selectorUser = state => state.user;
 export const selectorLoading = state => state.user.loading;
 
 export default userReducer;
