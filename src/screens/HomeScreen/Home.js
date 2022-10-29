@@ -19,7 +19,7 @@ import {getUsers, swipeLeft, swipeRight} from '../../redux/actions/user';
 import {selectorUser} from '../../redux/reducers/user';
 import Tag from '../../components/Tag';
 
-const Home = () => {
+const Home = ({navigation}) => {
   const dispatch = useDispatch();
   const swipeRef = useRef(null);
 
@@ -143,7 +143,8 @@ const Home = () => {
                       )}
                     </View>
                     <View>
-                      <TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => navigation.navigate('User detail')}>
                         <Feather name="alert-circle" size={28} color="#fff" />
                       </TouchableOpacity>
                     </View>

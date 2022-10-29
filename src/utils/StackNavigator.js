@@ -23,7 +23,9 @@ import ShowMe from '../screens/ProfileScreen/ShowMe';
 import Interests from '../screens/ProfileScreen/Interests';
 import MyLocation from '../screens/ProfileScreen/MyLocation';
 import MyPhoto from '../screens/ProfileScreen/MyPhoto';
+import UserDetail from '../screens/HomeScreen/UserDetail';
 import {setUserInfo} from '../redux/actions/auth';
+import LogoTitle from '../components/LogoTitle';
 
 const Stack = createNativeStackNavigator();
 
@@ -86,7 +88,29 @@ const StackNavigator = () => {
     );
   } else {
     if (isProfileUpdate) {
-      return <TabsNavigation />;
+      return (
+        <>
+          <Stack.Navigator>
+            <Stack.Screen
+              options={{
+                headerTitle: props => <LogoTitle {...props} />,
+                headerShadowVisible: false,
+              }}
+              name="Root"
+              component={TabsNavigation}
+            />
+            <Stack.Group screenOptions={{presentation: 'transparentModal'}}>
+              <Stack.Screen
+                options={{
+                  headerShown: false,
+                }}
+                name="User detail"
+                component={UserDetail}
+              />
+            </Stack.Group>
+          </Stack.Navigator>
+        </>
+      );
     } else {
       return (
         <Stack.Navigator

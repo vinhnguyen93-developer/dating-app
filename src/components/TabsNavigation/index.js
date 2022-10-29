@@ -36,15 +36,9 @@ const TabsNavigation = () => {
         tabBarStyle: {
           borderTopWidth: 0,
         },
+        headerShown: false,
       })}>
-      <Tabs.Screen
-        options={{
-          headerTitle: props => <LogoTitle {...props} />,
-          headerShadowVisible: false,
-        }}
-        name="Home"
-        component={Home}
-      />
+      <Tabs.Screen name="Home" component={Home} />
       <Tabs.Screen name="Like" component={LikeScreen} />
       <Tabs.Screen name="Chats" component={ChatsScreen} />
       <Tabs.Screen name="Profile" component={ProfileScreen} />
