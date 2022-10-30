@@ -9,11 +9,7 @@ const Tag = ({tagName, active, solid = false}) => {
       <LinearGradient
         start={{x: 1, y: 0}}
         end={{x: 0, y: 0}}
-        colors={
-          active
-            ? ['#ff948f', '#fe3a85']
-            : ['rgba(232, 230, 230, .30)', 'rgba(232, 230, 230, .30)']
-        }
+        colors={active ? ['#ff948f', '#fe3a85'] : ['#0000004d', '#0000004d']}
         style={styles.containerSolid}>
         <Text
           style={[
@@ -47,7 +43,7 @@ export default Tag;
 
 const styles = StyleSheet.create({
   container: {
-    borderWidth: 2,
+    borderWidth: 1,
     paddingHorizontal: 14,
     paddingVertical: 5,
     borderRadius: 24,
@@ -57,23 +53,22 @@ const styles = StyleSheet.create({
     borderColor: '#fe3a85',
   },
   tagNonActive: {
-    borderColor: '#ADADAD',
+    borderColor: '#505965',
   },
   tagText: {
-    fontWeight: '600',
     fontSize: 16,
   },
   tagTextActive: {
     color: '#fe3a85',
   },
   tagTextNonActive: {
-    color: '#ADADAD',
+    color: '#505965',
   },
 
   // Solid
   containerSolid: {
     paddingHorizontal: 10,
-    paddingVertical: 3,
+    paddingVertical: 4,
     borderRadius: 18,
     alignSelf: 'flex-start',
   },

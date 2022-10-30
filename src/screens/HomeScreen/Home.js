@@ -105,7 +105,7 @@ const Home = ({navigation}) => {
                     <View>
                       <View style={styles.wrapName}>
                         <Text style={styles.name}>{card?.firstName}</Text>
-                        <Text style={styles.age}>{card?.age}</Text>
+                        <Text style={styles.age}>{card?.ages}</Text>
                       </View>
                       {indexImage === 0 && (
                         <View style={styles.livingContainer}>
@@ -144,7 +144,12 @@ const Home = ({navigation}) => {
                     </View>
                     <View>
                       <TouchableOpacity
-                        onPress={() => navigation.navigate('User detail')}>
+                        onPress={() =>
+                          navigation.navigate('User detail', {
+                            partnerProfile: card,
+                            myProfile: profile,
+                          })
+                        }>
                         <Feather name="alert-circle" size={28} color="#fff" />
                       </TouchableOpacity>
                     </View>
@@ -283,7 +288,7 @@ const styles = StyleSheet.create({
   },
   wrapName: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'baseline',
   },
   name: {
     fontSize: 32,
@@ -293,7 +298,7 @@ const styles = StyleSheet.create({
   },
   age: {
     color: 'white',
-    fontSize: 22,
+    fontSize: 26,
   },
   livingContainer: {
     flexDirection: 'row',
@@ -303,7 +308,7 @@ const styles = StyleSheet.create({
   city: {
     color: 'white',
     marginLeft: 5,
-    fontSize: 14,
+    fontSize: 18,
   },
   buttonContainer: {
     flexDirection: 'row',
