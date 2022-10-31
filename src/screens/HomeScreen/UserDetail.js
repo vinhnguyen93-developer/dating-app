@@ -8,21 +8,21 @@ import {
   Text,
   TouchableOpacity,
   View,
+  LogBox,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
 import LinearGradient from 'react-native-linear-gradient';
+
 import Tag from '../../components/Tag';
 
 const {width} = Dimensions.get('window');
 const height = (width * 100) / 80;
 
-const images = [
-  'https://images.pexels.com/photos/6105851/pexels-photo-6105851.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'https://images.pexels.com/photos/6105874/pexels-photo-6105874.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'https://images.pexels.com/photos/6105852/pexels-photo-6105852.jpeg?auto=compress&cs=tinysrgb&w=800',
-];
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+]);
 
 const UserDetail = ({route, navigation}) => {
   useLayoutEffect(() => {
@@ -31,7 +31,7 @@ const UserDetail = ({route, navigation}) => {
     });
   }, [navigation]);
 
-  const {partnerProfile, myProfile} = route.params;
+  const {partnerProfile, myProfile, swipeRef} = route.params;
 
   const [imageActive, setImageActive] = useState(0);
 
@@ -44,6 +44,17 @@ const UserDetail = ({route, navigation}) => {
       setImageActive(slide);
     }
   };
+
+  const handleSwipeLeft = () => {
+    swipeRef.current.swipeLeft();
+    navigation.goBack();
+  };
+
+  const handleSwipeRight = () => {
+    swipeRef.current.swipeRight();
+    navigation.goBack();
+  };
+
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <Animatable.View animation="slideInUp" style={styles.containerImage}>
@@ -111,11 +122,7 @@ const UserDetail = ({route, navigation}) => {
             <View style={styles.boxContainer}>
               <View>
                 <Text style={[styles.textTitle, styles.mt_10]}>About Me</Text>
-                <Text style={styles.textContent}>
-                  Hey do u wanna go some interesting place in vietnam ? Let do
-                  it 😊 By the way , im real person not fake account, let add
-                  zalo and check it out 😆
-                </Text>
+                <Text style={styles.textContent}>{partnerProfile.aboutMe}</Text>
               </View>
             </View>
 
@@ -142,10 +149,15 @@ const UserDetail = ({route, navigation}) => {
 
         <View style={styles.line} />
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={[styles.buttonNope, styles.boxShadow]}>
+          <TouchableOpacity
+            onPress={handleSwipeLeft}
+            style={[styles.buttonNope, styles.boxShadow]}>
             <Feather name={'x'} size={30} color={'#FF3985'} />
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.buttonLike, styles.boxShadow]}>
+
+          <TouchableOpacity
+            onPress={handleSwipeRight}
+            style={[styles.buttonLike, styles.boxShadow]}>
             <FontAwesome5Icon
               name={'heart'}
               size={24}

@@ -44,53 +44,54 @@ export const getUsers =
     }
   };
 
-export const swipeLeft = (cardIndex, userId) => async (dispatch, getState) => {
-  try {
-    dispatch({type: actionTypes.SWIPED_NOPE_USER});
-
-    const {user} = getState();
-    const {users} = user;
-
-    if (!users[cardIndex]) {
-      return;
-    }
-
-    const userSwiped = users[cardIndex];
-
-    firestore()
-      .collection('users')
-      .doc(userId)
-      .collection('passes')
-      .doc(userSwiped.uid)
-      .set(userSwiped)
-      .then(() => console.log('user passed'));
-  } catch (error) {
-    dispatch({
-      type: actionTypes.SWIPED_NOPE_USER_FAILED,
-      payload: {
-        message: error,
-      },
-    });
-  }
-};
-
-export const swipeRight =
-  (cardIndex, profile) => async (dispatch, getState) => {
+export const swipeLeft =
+  (partnerProfile, userId) => async (dispatch, getState) => {
     try {
-      dispatch({type: actionTypes.SWIPED_LIKE_USER});
+      dispatch({type: actionTypes.SWIPED_NOPE_USER});
 
-      const {user} = getState();
-      const {users} = user;
+      // const {user} = getState();
+      // const {users} = user;
 
-      if (!users[cardIndex]) {
-        return;
-      }
+      // if (!users[cardIndex]) {
+      //   return;
+      // }
 
-      const userSwiped = users[cardIndex];
+      // const userSwiped = users[cardIndex];
 
       firestore()
         .collection('users')
-        .doc(userSwiped.uid)
+        .doc(userId)
+        .collection('passes')
+        .doc(partnerProfile.uid)
+        .set(partnerProfile)
+        .then(() => console.log('user passed'));
+    } catch (error) {
+      dispatch({
+        type: actionTypes.SWIPED_NOPE_USER_FAILED,
+        payload: {
+          message: error,
+        },
+      });
+    }
+  };
+
+export const swipeRight =
+  (partnerProfile, profile) => async (dispatch, getState) => {
+    try {
+      dispatch({type: actionTypes.SWIPED_LIKE_USER});
+
+      // const {user} = getState();
+      // const {users} = user;
+
+      // if (!users[cardIndex]) {
+      //   return;
+      // }
+
+      // const userSwiped = users[cardIndex];
+
+      firestore()
+        .collection('users')
+        .doc(partnerProfile.uid)
         .collection('swipes')
         .doc(profile.uid)
         .get()
@@ -100,20 +101,20 @@ export const swipeRight =
               .collection('users')
               .doc(profile.uid)
               .collection('swipes')
-              .doc(userSwiped.uid)
-              .set(userSwiped)
+              .doc(partnerProfile.uid)
+              .set(partnerProfile)
               .then(() => console.log('user swiped'));
 
             // Create a matches
             firestore()
               .collection('matches')
-              .doc(generateId(profile.uid, userSwiped.uid))
+              .doc(generateId(profile.uid, partnerProfile.uid))
               .set({
                 users: {
                   [profile.uid]: profile,
-                  [userSwiped.uid]: userSwiped,
+                  [partnerProfile.uid]: partnerProfile,
                 },
-                usersMatched: [profile.uid, userSwiped.uid],
+                usersMatched: [profile.uid, partnerProfile.uid],
                 timestamp: firestore.FieldValue.serverTimestamp(),
               });
           } else {
@@ -121,8 +122,8 @@ export const swipeRight =
               .collection('users')
               .doc(profile.uid)
               .collection('swipes')
-              .doc(userSwiped.uid)
-              .set(userSwiped)
+              .doc(partnerProfile.uid)
+              .set(partnerProfile)
               .then(() => console.log('user swiped'));
           }
         });

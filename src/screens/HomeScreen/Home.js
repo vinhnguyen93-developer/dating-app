@@ -148,6 +148,7 @@ const Home = ({navigation}) => {
                           navigation.navigate('User detail', {
                             partnerProfile: card,
                             myProfile: profile,
+                            swipeRef: swipeRef,
                           })
                         }>
                         <Feather name="alert-circle" size={28} color="#fff" />
@@ -183,10 +184,10 @@ const Home = ({navigation}) => {
             console.log('swipe all');
           }}
           onSwipedLeft={cardIndex => {
-            dispatch(swipeLeft(cardIndex, profile?.uid));
+            dispatch(swipeLeft(users[cardIndex], profile?.uid));
           }}
           onSwipedRight={cardIndex => {
-            dispatch(swipeRight(cardIndex, profile));
+            dispatch(swipeRight(users[cardIndex], profile));
           }}
           overlayLabels={{
             left: {

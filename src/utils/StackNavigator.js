@@ -24,6 +24,7 @@ import Interests from '../screens/ProfileScreen/Interests';
 import MyLocation from '../screens/ProfileScreen/MyLocation';
 import MyPhoto from '../screens/ProfileScreen/MyPhoto';
 import UserDetail from '../screens/HomeScreen/UserDetail';
+import Matching from '../screens/HomeScreen/Matching';
 import {setUserInfo} from '../redux/actions/auth';
 import LogoTitle from '../components/LogoTitle';
 
@@ -106,6 +107,13 @@ const StackNavigator = () => {
                 }}
                 name="User detail"
                 component={UserDetail}
+              />
+              <Stack.Screen
+                options={{
+                  headerShown: false,
+                }}
+                name="Matching"
+                component={Matching}
               />
             </Stack.Group>
           </Stack.Navigator>
