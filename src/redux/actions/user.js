@@ -49,15 +49,6 @@ export const swipeLeft =
     try {
       dispatch({type: actionTypes.SWIPED_NOPE_USER});
 
-      // const {user} = getState();
-      // const {users} = user;
-
-      // if (!users[cardIndex]) {
-      //   return;
-      // }
-
-      // const userSwiped = users[cardIndex];
-
       firestore()
         .collection('users')
         .doc(userId)
@@ -76,18 +67,9 @@ export const swipeLeft =
   };
 
 export const swipeRight =
-  (partnerProfile, profile) => async (dispatch, getState) => {
+  (partnerProfile, profile, navigation) => async (dispatch, getState) => {
     try {
       dispatch({type: actionTypes.SWIPED_LIKE_USER});
-
-      // const {user} = getState();
-      // const {users} = user;
-
-      // if (!users[cardIndex]) {
-      //   return;
-      // }
-
-      // const userSwiped = users[cardIndex];
 
       firestore()
         .collection('users')
@@ -116,6 +98,11 @@ export const swipeRight =
                 },
                 usersMatched: [profile.uid, partnerProfile.uid],
                 timestamp: firestore.FieldValue.serverTimestamp(),
+              })
+              .then(() => {
+                navigation.navigate('Matching', {
+                  profile: partnerProfile,
+                });
               });
           } else {
             firestore()

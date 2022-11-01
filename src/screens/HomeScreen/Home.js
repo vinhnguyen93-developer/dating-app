@@ -187,7 +187,7 @@ const Home = ({navigation}) => {
             dispatch(swipeLeft(users[cardIndex], profile?.uid));
           }}
           onSwipedRight={cardIndex => {
-            dispatch(swipeRight(users[cardIndex], profile));
+            dispatch(swipeRight(users[cardIndex], profile, navigation));
           }}
           overlayLabels={{
             left: {

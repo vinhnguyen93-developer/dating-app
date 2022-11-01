@@ -2,6 +2,7 @@ import React, {useLayoutEffect, useState} from 'react';
 import {
   Dimensions,
   Image,
+  KeyboardAvoidingView,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -23,7 +24,10 @@ const Matching = ({route, navigation}) => {
     });
   }, [navigation]);
 
+  const {profile} = route.params;
+
   const [imageActive, setImageActive] = useState(0);
+  const [message, setMessage] = useState('');
   const [showMatchingText, setShowMatchingText] = useState(true);
 
   const handleChangeImage = ({nativeEvent}) => {
@@ -35,12 +39,6 @@ const Matching = ({route, navigation}) => {
       setImageActive(slide);
     }
   };
-
-  const images = [
-    'https://images.pexels.com/photos/1391498/pexels-photo-1391498.jpeg?auto=compress&cs=tinysrgb&w=800',
-    'https://images.pexels.com/photos/1382731/pexels-photo-1382731.jpeg?auto=compress&cs=tinysrgb&w=800',
-    'https://images.pexels.com/photos/1382734/pexels-photo-1382734.jpeg?auto=compress&cs=tinysrgb&w=800',
-  ];
 
   return (
     <View
@@ -54,13 +52,13 @@ const Matching = ({route, navigation}) => {
           scrollEventThrottle={event => console.log(event)}
           style={styles.wrapImage}
           showsHorizontalScrollIndicator={false}>
-          {images.map((image, index) => (
+          {profile?.photoUrl.map((image, index) => (
             <Image key={index} source={{uri: image}} style={{width, height}} />
           ))}
         </ScrollView>
-        {images.length > 1 && (
+        {profile?.photoUrl.length > 1 && (
           <View style={styles.wrapProgressBar}>
-            {images.map((image, index) => (
+            {profile?.photoUrl.map((image, index) => (
               <View
                 key={index}
                 style={[
@@ -89,17 +87,22 @@ const Matching = ({route, navigation}) => {
           </Animatable.View>
         )}
 
-        <LinearGradient
-          colors={['#00000000', '#000000']}
-          style={styles.imageOverlay}>
-          <View style={styles.wrapInput}>
-            <TextInput style={styles.input} placeholder="Say something nice" />
-            <Pressable>
-              <Text style={styles.buttonSend}>SEND</Text>
-            </Pressable>
-          </View>
-        </LinearGradient>
-
+        <KeyboardAvoidingView behavior="position">
+          <LinearGradient
+            colors={['#00000000', '#000000']}
+            style={styles.imageOverlay}>
+            <View style={styles.wrapInput}>
+              <TextInput
+                onChangeText={setMessage}
+                style={styles.input}
+                placeholder="Say something nice"
+              />
+              <Pressable>
+                <Text style={styles.buttonSend}>SEND</Text>
+              </Pressable>
+            </View>
+          </LinearGradient>
+        </KeyboardAvoidingView>
         <Pressable
           onPress={() => navigation.goBack()}
           style={[styles.buttonClose, styles.boxShadow]}>
