@@ -6,7 +6,6 @@ import Home from '../../screens/HomeScreen/Home';
 import LikeScreen from '../../screens/HomeScreen/Like';
 import ChatsScreen from '../../screens/HomeScreen/Chats';
 import ProfileScreen from '../../screens/HomeScreen/Profile';
-import LogoTitle from '../LogoTitle';
 
 const Tabs = createBottomTabNavigator();
 
