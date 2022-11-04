@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -7,6 +7,11 @@ import {
   Image,
   Pressable,
 } from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {getUserMatches} from '../../redux/actions/chats';
+
+import {selectorProfile} from '../../redux/reducers/auth';
+import {selectorUserMatches} from '../../redux/reducers/chats';
 
 const data = [
   {
@@ -53,7 +58,15 @@ const data = [
   },
 ];
 
-const ChatsScreen = () => {
+const ChatsScreen = ({navigation}) => {
+  const dispatch = useDispatch();
+  const profile = useSelector(selectorProfile);
+  const usersMatches = useSelector(selectorUserMatches);
+
+  useEffect(() => {
+    dispatch(getUserMatches(profile?.uid));
+  }, [profile, dispatch]);
+
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.titleMatches}>New Matches</Text>
@@ -61,19 +74,20 @@ const ChatsScreen = () => {
         style={styles.containerSlideUser}
         horizontal
         showsHorizontalScrollIndicator={false}>
-        {data.map(item => (
-          <Pressable key={item.id} style={styles.containerImage}>
-            <View style={styles.wrapImage}>
-              <Image
-                source={{
-                  uri: item.image,
-                }}
-                style={styles.image}
-              />
-            </View>
-            <Text style={styles.userName}>{item.name}</Text>
-          </Pressable>
-        ))}
+        {usersMatches.length > 0 &&
+          usersMatches.map(user => (
+            <Pressable key={user.uid} style={styles.containerImage}>
+              <View style={styles.wrapImage}>
+                <Image
+                  source={{
+                    uri: user.photoUrl[0],
+                  }}
+                  style={styles.image}
+                />
+              </View>
+              <Text style={styles.userName}>{user.firstName}</Text>
+            </Pressable>
+          ))}
       </ScrollView>
       <View>
         <Text style={styles.titleMatches}>Messages</Text>
