@@ -5,7 +5,7 @@ const getUserMatchesInfo = (matches, profileId) => {
 
     const [uid, user] = Object.entries(usersNew).flat();
 
-    return {matchId: match.id, ...user};
+    return {matchId: match.id, matchTime: match.timestamp, ...user};
   });
 
   return newUsers;

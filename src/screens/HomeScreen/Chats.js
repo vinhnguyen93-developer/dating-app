@@ -76,7 +76,14 @@ const ChatsScreen = ({navigation}) => {
         showsHorizontalScrollIndicator={false}>
         {usersMatches.length > 0 &&
           usersMatches.map(user => (
-            <Pressable key={user.uid} style={styles.containerImage}>
+            <Pressable
+              onPress={() =>
+                navigation.navigate('Message', {
+                  userMatched: user,
+                })
+              }
+              key={user.uid}
+              style={styles.containerImage}>
               <View style={styles.wrapImage}>
                 <Image
                   source={{

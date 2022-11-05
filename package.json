@@ -28,6 +28,7 @@
     "react-native-deck-swiper": "^2.0.10",
     "react-native-element-dropdown": "^2.3.0",
     "react-native-fbsdk-next": "^10.1.0",
+    "react-native-gifted-chat": "^1.0.4",
     "react-native-gradle-plugin": "^0.71.4",
     "react-native-image-crop-picker": "^0.38.0",
     "react-native-linear-gradient": "^2.6.2",
