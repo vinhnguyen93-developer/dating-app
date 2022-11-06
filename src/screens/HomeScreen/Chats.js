@@ -8,55 +8,11 @@ import {
   Pressable,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+import ChatRow from '../../components/ChatRow';
 import {getUserMatches} from '../../redux/actions/chats';
 
 import {selectorProfile} from '../../redux/reducers/auth';
 import {selectorUserMatches} from '../../redux/reducers/chats';
-
-const data = [
-  {
-    id: 1,
-    image:
-      'https://images.pexels.com/photos/1382731/pexels-photo-1382731.jpeg?auto=compress&cs=tinysrgb&w=800',
-    name: 'Vân',
-    message: 'Hello',
-  },
-  {
-    id: 2,
-    image:
-      'https://images.pexels.com/photos/1308885/pexels-photo-1308885.jpeg?auto=compress&cs=tinysrgb&w=800',
-    name: 'Phương',
-    message: 'Nice too meet you',
-  },
-  {
-    id: 3,
-    image:
-      'https://images.pexels.com/photos/1382734/pexels-photo-1382734.jpeg?auto=compress&cs=tinysrgb&w=800',
-    name: 'Ngoc',
-    message: 'Where do you live?',
-  },
-  {
-    id: 4,
-    image:
-      'https://images.pexels.com/photos/902030/pexels-photo-902030.jpeg?auto=compress&cs=tinysrgb&w=800',
-    name: 'Diệu Trúc',
-    message: 'Hi :))',
-  },
-  {
-    id: 5,
-    image:
-      'https://images.pexels.com/photos/884979/pexels-photo-884979.jpeg?auto=compress&cs=tinysrgb&w=800',
-    name: 'Linda',
-    message: 'How are you?',
-  },
-  {
-    id: 6,
-    image:
-      'https://images.pexels.com/photos/1557843/pexels-photo-1557843.jpeg?auto=compress&cs=tinysrgb&w=800',
-    name: 'Linda',
-    message: 'How are you?',
-  },
-];
 
 const ChatsScreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -80,6 +36,7 @@ const ChatsScreen = ({navigation}) => {
               onPress={() =>
                 navigation.navigate('Message', {
                   userMatched: user,
+                  profile: profile,
                 })
               }
               key={user.uid}
@@ -98,21 +55,13 @@ const ChatsScreen = ({navigation}) => {
       </ScrollView>
       <View>
         <Text style={styles.titleMatches}>Messages</Text>
-        {data.map(item => (
-          <Pressable key={item.id} style={styles.containerChat}>
-            <View style={styles.wrapAvatar}>
-              <Image
-                source={{
-                  uri: item.image,
-                }}
-                style={styles.avatar}
-              />
-            </View>
-            <View style={styles.chatTitle}>
-              <Text style={styles.chatName}>{item.name}</Text>
-              <Text style={styles.message}>{item.message}</Text>
-            </View>
-          </Pressable>
+        {usersMatches.map(user => (
+          <ChatRow
+            key={user.uid}
+            userMatched={user}
+            profile={profile}
+            navigation={navigation}
+          />
         ))}
       </View>
     </ScrollView>

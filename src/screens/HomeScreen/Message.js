@@ -1,33 +1,38 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Bubble, GiftedChat} from 'react-native-gifted-chat';
+import {useDispatch, useSelector} from 'react-redux';
 
 import RenderChatEmpty from '../../components/RenderChatEmpty';
+import {getMessage, sendMessage} from '../../redux/actions/message';
+import {selectorMessage} from '../../redux/reducers/message';
 
 const MessageScreen = ({route, navigation}) => {
-  const [messages, setMessages] = useState([]);
-  const {userMatched} = route.params;
+  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   setMessages([
-  //     {
-  //       _id: 1,
-  //       text: 'Hello developer',
-  //       createdAt: new Date(),
-  //       user: {
-  //         _id: 2,
-  //         name: 'React Native',
-  //         avatar: 'https://placeimg.com/140/140/any',
-  //       },
-  //     },
-  //   ]);
-  // }, []);
+  const messageFirebase = useSelector(selectorMessage);
 
-  const onSend = useCallback((message = []) => {
-    setMessages(previousMessages =>
-      GiftedChat.append(previousMessages, message),
-    );
-  }, []);
+  const {userMatched, profile} = route.params;
+  const [messages, setMessages] = useState(messageFirebase);
+
+  useEffect(() => {
+    dispatch(getMessage(userMatched?.matchId));
+  }, [dispatch, userMatched?.matchId]);
+
+  useEffect(() => {
+    setMessages(messageFirebase);
+  }, [messageFirebase]);
+
+  const onSend = useCallback(
+    (message = []) => {
+      setMessages(previousMessages =>
+        GiftedChat.append(previousMessages, message),
+      );
+
+      dispatch(sendMessage(userMatched?.matchId, message[0]));
+    },
+    [dispatch, userMatched?.matchId],
+  );
 
   const renderBubble = props => (
     <Bubble
@@ -49,13 +54,16 @@ const MessageScreen = ({route, navigation}) => {
     <View style={styles.container}>
       <GiftedChat
         wrapInSafeArea={false}
+        alwaysShowSend={true}
         messagesContainerStyle={styles.containerGiftedChat}
         messages={messages}
         onSend={message => onSend(message)}
         renderChatEmpty={() => <RenderChatEmpty userMatched={userMatched} />}
         renderBubble={renderBubble}
         user={{
-          _id: 1,
+          _id: profile?.uid,
+          name: profile?.firstName,
+          avatar: profile?.photoUrl[0],
         }}
       />
     </View>
