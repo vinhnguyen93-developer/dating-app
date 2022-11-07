@@ -33,7 +33,7 @@ const ChatRow = ({userMatched, profile, navigation}) => {
       </View>
       <View style={styles.chatTitle}>
         <Text style={styles.chatName}>{userMatched.firstName}</Text>
-        <Text style={styles.message}>{messages[0].text}</Text>
+        <Text style={styles.message}>{messages[0]?.text}</Text>
       </View>
     </Pressable>
   );

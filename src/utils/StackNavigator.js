@@ -24,6 +24,7 @@ import Interests from '../screens/ProfileScreen/Interests';
 import MyLocation from '../screens/ProfileScreen/MyLocation';
 import MyPhoto from '../screens/ProfileScreen/MyPhoto';
 import UserDetail from '../screens/HomeScreen/UserDetail';
+import UserView from '../components/UserView';
 import Matching from '../screens/HomeScreen/Matching';
 import MessageScreen from '../screens/HomeScreen/Message';
 import {setUserInfo} from '../redux/actions/auth';
@@ -117,17 +118,25 @@ const StackNavigator = () => {
                 name="Matching"
                 component={Matching}
               />
+              <Stack.Screen
+                options={{
+                  headerShown: false,
+                }}
+                name="User view"
+                component={UserView}
+              />
             </Stack.Group>
             <Stack.Group>
               <Stack.Screen
                 name="Message"
                 component={MessageScreen}
-                options={({route}) => ({
+                options={({route, navigation}) => ({
                   headerBackTitleVisible: false,
                   headerTitle: props => (
                     <MessageHeader
-                      image={route.params.userMatched.photoUrl[0]}
-                      name={route.params.userMatched.firstName}
+                      navigation={navigation}
+                      userMatched={route.params.userMatched}
+                      profile={route.params.profile}
                     />
                   ),
                 })}

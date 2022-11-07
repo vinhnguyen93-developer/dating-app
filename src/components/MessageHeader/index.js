@@ -1,17 +1,24 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, Pressable, StyleSheet, Text} from 'react-native';
 
-const MessageHeader = ({image, name}) => {
+const MessageHeader = ({userMatched, profile, navigation}) => {
   return (
-    <View style={styles.container}>
+    <Pressable
+      onPress={() =>
+        navigation.navigate('User view', {
+          userMatched,
+          profile,
+        })
+      }
+      style={styles.container}>
       <Image
         style={styles.image}
         source={{
-          uri: image,
+          uri: userMatched.photoUrl[0],
         }}
       />
-      <Text style={styles.text}>{name}</Text>
-    </View>
+      <Text style={styles.text}>{userMatched.firstName}</Text>
+    </Pressable>
   );
 };
 

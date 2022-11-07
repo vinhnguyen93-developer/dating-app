@@ -55,10 +55,17 @@ const MessageScreen = ({route, navigation}) => {
       <GiftedChat
         wrapInSafeArea={false}
         alwaysShowSend={true}
+        isLoadingEarlier
         messagesContainerStyle={styles.containerGiftedChat}
         messages={messages}
         onSend={message => onSend(message)}
         renderChatEmpty={() => <RenderChatEmpty userMatched={userMatched} />}
+        onPressAvatar={() =>
+          navigation.navigate('User view', {
+            userMatched,
+            profile,
+          })
+        }
         renderBubble={renderBubble}
         user={{
           _id: profile?.uid,
