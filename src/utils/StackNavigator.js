@@ -93,8 +93,8 @@ const StackNavigator = () => {
   } else {
     if (isProfileUpdate) {
       return (
-        <>
-          <Stack.Navigator>
+        <Stack.Navigator>
+          <Stack.Group>
             <Stack.Screen
               options={{
                 headerTitle: props => <LogoTitle {...props} />,
@@ -103,47 +103,47 @@ const StackNavigator = () => {
               name="Root"
               component={TabsNavigation}
             />
-            <Stack.Group screenOptions={{presentation: 'transparentModal'}}>
-              <Stack.Screen
-                options={{
-                  headerShown: false,
-                }}
-                name="User detail"
-                component={UserDetail}
-              />
-              <Stack.Screen
-                options={{
-                  headerShown: false,
-                }}
-                name="Matching"
-                component={Matching}
-              />
-              <Stack.Screen
-                options={{
-                  headerShown: false,
-                }}
-                name="User view"
-                component={UserView}
-              />
-            </Stack.Group>
-            <Stack.Group>
-              <Stack.Screen
-                name="Message"
-                component={MessageScreen}
-                options={({route, navigation}) => ({
-                  headerBackTitleVisible: false,
-                  headerTitle: props => (
-                    <MessageHeader
-                      navigation={navigation}
-                      userMatched={route.params.userMatched}
-                      profile={route.params.profile}
-                    />
-                  ),
-                })}
-              />
-            </Stack.Group>
-          </Stack.Navigator>
-        </>
+          </Stack.Group>
+          <Stack.Group screenOptions={{presentation: 'transparentModal'}}>
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="User detail"
+              component={UserDetail}
+            />
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="Matching"
+              component={Matching}
+            />
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="User view"
+              component={UserView}
+            />
+          </Stack.Group>
+          <Stack.Group>
+            <Stack.Screen
+              name="Message"
+              component={MessageScreen}
+              options={({route, navigation}) => ({
+                headerBackTitleVisible: false,
+                headerTitle: props => (
+                  <MessageHeader
+                    navigation={navigation}
+                    userMatched={route.params.userMatched}
+                    profile={route.params.profile}
+                  />
+                ),
+              })}
+            />
+          </Stack.Group>
+        </Stack.Navigator>
       );
     } else {
       return (

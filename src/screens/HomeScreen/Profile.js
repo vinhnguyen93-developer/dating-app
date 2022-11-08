@@ -1,17 +1,18 @@
 import React from 'react';
 import {Image, StyleSheet, Text, View, Pressable} from 'react-native';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import Feather from 'react-native-vector-icons/Feather';
 import {useSelector} from 'react-redux';
 
 import {selectorProfile} from '../../redux/reducers/auth';
+import {useAuthContext} from '../../context/AuthContext';
 
 const ProfileScreen = () => {
   const profile = useSelector(selectorProfile);
+  const {logout} = useAuthContext();
 
   return (
     <View style={styles.container}>
-      <View style={styles.container}>
+      <View style={styles.contentTopContainer}>
         <View style={styles.wrapImage}>
           <Image
             style={styles.image}
@@ -30,12 +31,21 @@ const ProfileScreen = () => {
 
         <View style={styles.wrapEditRow}>
           <View style={styles.containerEdit}>
-            <Pressable style={styles.buttonEdit}>
+            <Pressable style={[styles.buttonEdit, styles.boxShadow]}>
               <FontAwesome5Icon name="pen" size={18} color="#505965" />
             </Pressable>
             <Text style={styles.textEdit}>EDIT PROFILE</Text>
           </View>
         </View>
+        <View style={[styles.overlay, styles.boxShadow]} />
+      </View>
+
+      <View style={styles.wrapButton}>
+        <Pressable
+          onPress={logout}
+          style={[styles.buttonContainer, styles.boxShadow]}>
+          <Text style={styles.textButton}>logout</Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -46,9 +56,22 @@ export default ProfileScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    alignContent: 'center',
     width: '100%',
+    alignContent: 'center',
+    backgroundColor: '#f0f2f4',
+  },
+  contentTopContainer: {
+    position: 'relative',
+  },
+  overlay: {
+    height: '120%',
+    width: '100%',
+    position: 'absolute',
+    zIndex: -1,
+    backgroundColor: '#fff',
+    borderBottomLeftRadius: 300,
+    borderBottomRightRadius: 300,
+    transform: [{scaleX: 1.5}],
   },
   wrapImage: {
     width: '100%',
@@ -88,6 +111,30 @@ const styles = StyleSheet.create({
     padding: 18,
     borderRadius: 28,
     marginBottom: 8,
+  },
+  textEdit: {
+    color: '#505965',
+    fontSize: 12,
+  },
+  wrapButton: {
+    marginHorizontal: 35,
+  },
+  buttonContainer: {
+    paddingVertical: 14,
+    borderRadius: 24,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: '100%',
+    top: '60%',
+    backgroundColor: '#fff',
+  },
+  textButton: {
+    textAlign: 'center',
+    fontWeight: '600',
+    fontSize: 15,
+    color: '#fe3a85',
+  },
+  boxShadow: {
     shadowColor: '#000',
     shadowOffset: {
       width: 1,
@@ -96,9 +143,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.29,
     shadowRadius: 4.65,
     elevation: 7,
-  },
-  textEdit: {
-    color: '#505965',
-    fontSize: 12,
   },
 });
