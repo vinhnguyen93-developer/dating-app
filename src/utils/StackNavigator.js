@@ -27,9 +27,12 @@ import UserDetail from '../screens/HomeScreen/UserDetail';
 import UserView from '../components/UserView';
 import Matching from '../screens/HomeScreen/Matching';
 import MessageScreen from '../screens/HomeScreen/Message';
+import EditInfoScreen from '../screens/HomeScreen/EditInfo';
+
 import {setUserInfo} from '../redux/actions/auth';
 import LogoTitle from '../components/LogoTitle';
 import MessageHeader from '../components/MessageHeader';
+import {Button} from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
@@ -138,6 +141,23 @@ const StackNavigator = () => {
                     navigation={navigation}
                     userMatched={route.params.userMatched}
                     profile={route.params.profile}
+                  />
+                ),
+              })}
+            />
+
+            <Stack.Screen
+              name="Edit Info"
+              component={EditInfoScreen}
+              options={({route, navigation}) => ({
+                headerBackTitleVisible: false,
+                headerTitle: 'Edit Info',
+                headerBackVisible: false,
+                headerRight: () => (
+                  <Button
+                    title="Done"
+                    onPress={() => navigation.goBack()}
+                    color="#D6002F"
                   />
                 ),
               })}

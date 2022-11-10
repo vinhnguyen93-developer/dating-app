@@ -71,6 +71,7 @@ const MessageScreen = ({route, navigation}) => {
           _id: profile?.uid,
           name: profile?.firstName,
           avatar: profile?.photoUrl[0],
+          sent: true,
         }}
       />
     </View>

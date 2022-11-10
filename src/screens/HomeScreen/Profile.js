@@ -6,7 +6,7 @@ import {useSelector} from 'react-redux';
 import {selectorProfile} from '../../redux/reducers/auth';
 import {useAuthContext} from '../../context/AuthContext';
 
-const ProfileScreen = () => {
+const ProfileScreen = ({navigation}) => {
   const profile = useSelector(selectorProfile);
   const {logout} = useAuthContext();
 
@@ -31,7 +31,13 @@ const ProfileScreen = () => {
 
         <View style={styles.wrapEditRow}>
           <View style={styles.containerEdit}>
-            <Pressable style={[styles.buttonEdit, styles.boxShadow]}>
+            <Pressable
+              onPress={() =>
+                navigation.navigate('Edit Info', {
+                  profile,
+                })
+              }
+              style={[styles.buttonEdit, styles.boxShadow]}>
               <FontAwesome5Icon name="pen" size={18} color="#505965" />
             </Pressable>
             <Text style={styles.textEdit}>EDIT PROFILE</Text>
