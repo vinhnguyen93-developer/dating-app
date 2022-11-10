@@ -69,7 +69,7 @@ const UserDetail = ({route, navigation}) => {
             <Image key={index} source={{uri: image}} style={{width, height}} />
           ))}
         </ScrollView>
-        {partnerProfile.photoUrl.length > 1 && (
+        {partnerProfile?.photoUrl.length > 1 && (
           <View style={styles.wrapProgressBar}>
             {partnerProfile.photoUrl.map((image, index) => (
               <View
@@ -117,7 +117,7 @@ const UserDetail = ({route, navigation}) => {
           </View>
         </View>
 
-        {partnerProfile.aboutMe && (
+        {partnerProfile?.aboutMe && (
           <>
             <View style={styles.boxContainer}>
               <View>
@@ -134,11 +134,11 @@ const UserDetail = ({route, navigation}) => {
           <View>
             <Text style={[styles.textTitle, styles.mt_10]}>My Interests</Text>
             <View style={styles.containerTags}>
-              {partnerProfile.tags.map(tag => (
+              {partnerProfile?.tags.map(tag => (
                 <View key={tag.id} style={styles.wrapTag}>
                   <Tag
                     tagName={tag.name}
-                    active={myProfile.tags.some(item => item.id === tag.id)}
+                    active={myProfile?.tags.some(item => item.id === tag.id)}
                     solid={false}
                   />
                 </View>
