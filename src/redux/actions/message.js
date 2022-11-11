@@ -41,6 +41,7 @@ export const getMessage = matchedId => async dispatch => {
           createdAt: doc.data().createdAt.toDate(),
           text: doc.data().text,
           user: doc.data().user,
+          messageId: doc.id,
         }));
 
         dispatch({

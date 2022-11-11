@@ -1,9 +1,10 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Bubble, GiftedChat} from 'react-native-gifted-chat';
 import {useDispatch, useSelector} from 'react-redux';
 
 import RenderChatEmpty from '../../components/RenderChatEmpty';
+import {updateReadMessage} from '../../lib/message';
 import {getMessage, sendMessage} from '../../redux/actions/message';
 import {selectorMessage} from '../../redux/reducers/message';
 
@@ -12,7 +13,7 @@ const MessageScreen = ({route, navigation}) => {
 
   const messageFirebase = useSelector(selectorMessage);
 
-  const {userMatched, profile} = route.params;
+  const {userMatched, profile, lastMessage} = route.params;
   const [messages, setMessages] = useState(messageFirebase);
 
   useEffect(() => {
@@ -22,6 +23,14 @@ const MessageScreen = ({route, navigation}) => {
   useEffect(() => {
     setMessages(messageFirebase);
   }, [messageFirebase]);
+
+  useMemo(() => {
+    if (lastMessage?.user.received === true) {
+      updateReadMessage(userMatched?.matchId, lastMessage?.messageId);
+    } else {
+      return;
+    }
+  }, [lastMessage, userMatched]);
 
   const onSend = useCallback(
     (message = []) => {
@@ -72,6 +81,7 @@ const MessageScreen = ({route, navigation}) => {
           name: profile?.firstName,
           avatar: profile?.photoUrl[0],
           sent: true,
+          received: true,
         }}
       />
     </View>

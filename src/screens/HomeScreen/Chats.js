@@ -44,7 +44,7 @@ const ChatsScreen = ({navigation}) => {
               <View style={styles.wrapImage}>
                 <Image
                   source={{
-                    uri: user.photoUrl[0],
+                    uri: user?.photoUrl[0],
                   }}
                   style={styles.image}
                 />
