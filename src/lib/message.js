@@ -13,3 +13,15 @@ export const updateReadMessage = (matchedId, messageId) => {
       console.log('update success');
     });
 };
+
+export const updateUserHaveMessage = matchedId => {
+  firestore()
+    .collection('matches')
+    .doc(matchedId)
+    .update({
+      isNewMatch: false,
+    })
+    .then(() => {
+      console.log('update success');
+    });
+};

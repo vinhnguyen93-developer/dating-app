@@ -25,6 +25,7 @@ import MyLocation from '../screens/ProfileScreen/MyLocation';
 import MyPhoto from '../screens/ProfileScreen/MyPhoto';
 import UserDetail from '../screens/HomeScreen/UserDetail';
 import UserView from '../components/UserView';
+import PreviewDetail from '../components/PreviewDetail';
 import Matching from '../screens/HomeScreen/Matching';
 import MessageScreen from '../screens/HomeScreen/Message';
 import EditInfoScreen from '../screens/HomeScreen/EditInfo';
@@ -114,6 +115,13 @@ const StackNavigator = () => {
               }}
               name="User detail"
               component={UserDetail}
+            />
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="Preview detail"
+              component={PreviewDetail}
             />
             <Stack.Screen
               options={{

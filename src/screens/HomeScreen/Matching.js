@@ -7,7 +7,6 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   View,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
@@ -27,7 +26,6 @@ const Matching = ({route, navigation}) => {
   const {profile} = route.params;
 
   const [imageActive, setImageActive] = useState(0);
-  const [message, setMessage] = useState('');
   const [showMatchingText, setShowMatchingText] = useState(true);
 
   const handleChangeImage = ({nativeEvent}) => {
@@ -91,14 +89,9 @@ const Matching = ({route, navigation}) => {
           <LinearGradient
             colors={['#00000000', '#000000']}
             style={styles.imageOverlay}>
-            <View style={styles.wrapInput}>
-              <TextInput
-                onChangeText={setMessage}
-                style={styles.input}
-                placeholder="Say something nice"
-              />
-              <Pressable>
-                <Text style={styles.buttonSend}>SEND</Text>
+            <View style={styles.wrapButton}>
+              <Pressable onPress={() => navigation.navigate('Chats')}>
+                <Text style={styles.buttonSend}>SEND MESSAGE</Text>
               </Pressable>
             </View>
           </LinearGradient>
@@ -197,24 +190,21 @@ const styles = StyleSheet.create({
   matchingTextTwo: {
     fontSize: 65,
   },
-  wrapInput: {
+  wrapButton: {
     backgroundColor: '#fff',
     paddingHorizontal: 4,
-    paddingVertical: 10,
+    paddingVertical: 18,
     marginHorizontal: 10,
     marginBottom: 80,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 10,
-  },
-  input: {
-    padding: 8,
-    flexGrow: 1,
-    fontSize: 16,
   },
   buttonSend: {
     color: '#309aff',
     fontWeight: '600',
     paddingHorizontal: 6,
+    fontSize: 18,
   },
 });

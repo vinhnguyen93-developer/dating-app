@@ -4,7 +4,7 @@ import {Bubble, GiftedChat} from 'react-native-gifted-chat';
 import {useDispatch, useSelector} from 'react-redux';
 
 import RenderChatEmpty from '../../components/RenderChatEmpty';
-import {updateReadMessage} from '../../lib/message';
+import {updateReadMessage, updateUserHaveMessage} from '../../lib/message';
 import {getMessage, sendMessage} from '../../redux/actions/message';
 import {selectorMessage} from '../../redux/reducers/message';
 
@@ -39,6 +39,7 @@ const MessageScreen = ({route, navigation}) => {
       );
 
       dispatch(sendMessage(userMatched?.matchId, message[0]));
+      updateUserHaveMessage(userMatched?.matchId);
     },
     [dispatch, userMatched?.matchId],
   );

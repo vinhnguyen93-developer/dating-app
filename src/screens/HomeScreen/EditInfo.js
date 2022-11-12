@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, Pressable} from 'react-native';
+import Preview from '../../components/Preview';
 
 const EditInfoScreen = ({route, navigation}) => {
+  const {profile} = route.params;
+
   const [active, setActive] = useState(true);
 
   return (
@@ -27,6 +30,16 @@ const EditInfoScreen = ({route, navigation}) => {
           </Text>
         </Pressable>
       </View>
+
+      {active ? (
+        <View>
+          <Text>Edit info</Text>
+        </View>
+      ) : (
+        <View>
+          <Preview profile={profile} navigation={navigation} />
+        </View>
+      )}
     </View>
   );
 };

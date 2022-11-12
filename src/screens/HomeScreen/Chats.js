@@ -19,19 +19,26 @@ const ChatsScreen = ({navigation}) => {
   const profile = useSelector(selectorProfile);
   const usersMatches = useSelector(selectorUserMatches);
 
+  const usersMatchNew = usersMatches.filter(user => user.isNewMatch === true);
+  const usersHaveMessage = usersMatches.filter(
+    user => user.isNewMatch === false,
+  );
+
   useEffect(() => {
     dispatch(getUserMatches(profile?.uid));
   }, [profile, dispatch]);
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.titleMatches}>New Matches</Text>
+      {usersMatchNew.length > 0 && (
+        <Text style={styles.titleMatches}>New Matches</Text>
+      )}
       <ScrollView
         style={styles.containerSlideUser}
         horizontal
         showsHorizontalScrollIndicator={false}>
-        {usersMatches.length > 0 &&
-          usersMatches.map(user => (
+        {usersMatchNew.length > 0 &&
+          usersMatchNew.map(user => (
             <Pressable
               onPress={() =>
                 navigation.navigate('Message', {
@@ -54,15 +61,18 @@ const ChatsScreen = ({navigation}) => {
           ))}
       </ScrollView>
       <View>
-        <Text style={styles.titleMatches}>Messages</Text>
-        {usersMatches.map(user => (
-          <ChatRow
-            key={user.uid}
-            userMatched={user}
-            profile={profile}
-            navigation={navigation}
-          />
-        ))}
+        {usersHaveMessage.length > 0 && (
+          <Text style={styles.titleMatches}>Messages</Text>
+        )}
+        {usersHaveMessage.length > 0 &&
+          usersHaveMessage.map(user => (
+            <ChatRow
+              key={user.uid}
+              userMatched={user}
+              profile={profile}
+              navigation={navigation}
+            />
+          ))}
       </View>
     </ScrollView>
   );

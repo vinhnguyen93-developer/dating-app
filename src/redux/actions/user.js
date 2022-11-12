@@ -98,6 +98,7 @@ export const swipeRight =
                 },
                 usersMatched: [profile.uid, partnerProfile.uid],
                 timestamp: firestore.FieldValue.serverTimestamp(),
+                isNewMatch: true,
               })
               .then(() => {
                 navigation.navigate('Matching', {
