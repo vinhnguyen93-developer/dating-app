@@ -23,7 +23,6 @@ const ModalCustom = ({active, title, desc, setActive}) => {
           </View>
         </View>
       </Modal>
-      <View></View>
     </View>
   );
 };

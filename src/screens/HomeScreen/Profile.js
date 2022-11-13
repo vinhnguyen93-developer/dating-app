@@ -42,6 +42,19 @@ const ProfileScreen = ({navigation}) => {
             </Pressable>
             <Text style={styles.textEdit}>EDIT PROFILE</Text>
           </View>
+
+          <View style={styles.containerEdit}>
+            <Pressable
+              onPress={() =>
+                navigation.navigate('Update photo', {
+                  profile,
+                })
+              }
+              style={[styles.buttonEdit, styles.boxShadow]}>
+              <FontAwesome5Icon name="camera" size={18} color="#505965" />
+            </Pressable>
+            <Text style={styles.textEdit}>UPDATE PHOTO</Text>
+          </View>
         </View>
         <View style={[styles.overlay, styles.boxShadow]} />
       </View>
@@ -111,6 +124,7 @@ const styles = StyleSheet.create({
   containerEdit: {
     flexDirection: 'column',
     alignItems: 'center',
+    marginHorizontal: 12,
   },
   buttonEdit: {
     backgroundColor: '#fff',

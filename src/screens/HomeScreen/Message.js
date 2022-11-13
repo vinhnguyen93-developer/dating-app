@@ -39,9 +39,12 @@ const MessageScreen = ({route, navigation}) => {
       );
 
       dispatch(sendMessage(userMatched?.matchId, message[0]));
-      updateUserHaveMessage(userMatched?.matchId);
+
+      if (userMatched?.isMatchNew === true) {
+        updateUserHaveMessage(userMatched?.matchId);
+      }
     },
-    [dispatch, userMatched?.matchId],
+    [dispatch, userMatched],
   );
 
   const renderBubble = props => (

@@ -29,6 +29,7 @@ import PreviewDetail from '../components/PreviewDetail';
 import Matching from '../screens/HomeScreen/Matching';
 import MessageScreen from '../screens/HomeScreen/Message';
 import EditInfoScreen from '../screens/HomeScreen/EditInfo';
+import UpdatePhotoView from '../components/UpdatePhoto';
 
 import {setUserInfo} from '../redux/actions/auth';
 import LogoTitle from '../components/LogoTitle';
@@ -170,6 +171,8 @@ const StackNavigator = () => {
                 ),
               })}
             />
+
+            <Stack.Screen name="Update photo" component={UpdatePhotoView} />
           </Stack.Group>
         </Stack.Navigator>
       );
