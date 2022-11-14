@@ -42,19 +42,25 @@ export const AuthProvider = ({children}) => {
   };
 
   const loginWithGoogle = async () => {
-    // Get user id token
-    const {idToken} = await GoogleSignin.signIn();
-    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+    try {
+      // Get user id token
+      const {idToken} = await GoogleSignin.signIn();
+      const googleCredential = await auth.GoogleAuthProvider.credential(
+        idToken,
+      );
 
-    setIsLoading(true);
+      setIsLoading(true);
 
-    // Sign-in the user with the credential
-    auth()
-      .signInWithCredential(googleCredential)
-      .then(() => {
-        setIsLoading(false);
-      })
-      .catch(error => Alert.alert('Error!', error));
+      // Sign-in the user with the credential
+      auth()
+        .signInWithCredential(googleCredential)
+        .then(() => {
+          setIsLoading(false);
+        })
+        .catch(error => Alert.alert('Error!', error));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const loginWithFacebook = async () => {

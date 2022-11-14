@@ -1,12 +1,13 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-const ButtonOutline = ({title, active = true}) => {
+const ButtonOutline = ({title, active = true, type = 'lager'}) => {
   return (
     <View
       style={[
         styles.buttonContainer,
         active ? styles.buttonActive : styles.buttonNonActive,
+        type === 'sm' ? styles.sm : styles.lg,
       ]}>
       <Text
         style={[
@@ -25,10 +26,16 @@ const styles = StyleSheet.create({
   buttonContainer: {
     paddingVertical: 12,
     borderRadius: 26,
-    width: '100%',
     borderWidth: 2,
     flexDirection: 'row',
     justifyContent: 'center',
+  },
+  sm: {
+    paddingVertical: 10,
+    paddingHorizontal: 95,
+  },
+  lg: {
+    width: '100%',
   },
   buttonActive: {
     borderColor: '#FE3A85',

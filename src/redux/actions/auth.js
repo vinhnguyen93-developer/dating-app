@@ -58,3 +58,15 @@ export const addUserProfile =
         });
       });
   };
+
+export const updatePhoto =
+  ({photos, userId}) =>
+  async dispatch => {
+    firestore()
+      .collection('users')
+      .doc(userId)
+      .update({
+        photoUrl: photos,
+      })
+      .then(() => console.log('Update photo success'));
+  };

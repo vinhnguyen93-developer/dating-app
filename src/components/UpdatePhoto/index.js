@@ -18,9 +18,10 @@ import LinearGradient from 'react-native-linear-gradient';
 import storage from '@react-native-firebase/storage';
 
 import ButtonPrimary from '../../components/Button/ButtonPrimary';
-import {addUserProfile} from '../../redux/actions/auth';
+import {updatePhoto} from '../../redux/actions/auth';
 import {useAuthContext} from '../../context/AuthContext';
 import {selectorLoading} from '../../redux/reducers/auth';
+import ModalDeleteImage from './Modal';
 
 const UpdatePhotoView = ({route, navigation}) => {
   useLayoutEffect(() => {
@@ -43,6 +44,8 @@ const UpdatePhotoView = ({route, navigation}) => {
   const [activeButton, setActiveButton] = useState(false);
   const [photosUrlUpload, setPhotosUrlUpload] = useState([]);
   const [upLoading, setUpLoading] = useState(false);
+  const [modalActive, setModalActive] = useState(false);
+  const [indexImageRemove, setIndexImageRemove] = useState(null);
 
   useMemo(() => {
     images.join('') !== '' ? setActiveButton(true) : setActiveButton(false);
@@ -91,8 +94,9 @@ const UpdatePhotoView = ({route, navigation}) => {
     ]);
   };
 
-  const handleSubmit = () => {
-    dispatch(addUserProfile({images: photosUrlUpload, userId: user.uid}));
+  const handleSubmit = async () => {
+    await dispatch(updatePhoto({photos: photosUrlUpload, userId: user.uid}));
+    navigation.goBack();
   };
 
   return (
@@ -120,7 +124,10 @@ const UpdatePhotoView = ({route, navigation}) => {
                   style={styles.image}
                 />
                 <TouchableOpacity
-                  onPress={() => removeImage(index)}
+                  onPress={() => {
+                    setModalActive(true);
+                    setIndexImageRemove(index);
+                  }}
                   style={styles.buttonRemoveImage}>
                   <Feather name="x" size={21} color="#fe3a85" />
                 </TouchableOpacity>
@@ -162,6 +169,13 @@ const UpdatePhotoView = ({route, navigation}) => {
           loop
         />
       )}
+
+      <ModalDeleteImage
+        active={modalActive}
+        setActive={setModalActive}
+        removeImage={removeImage}
+        indexImage={indexImageRemove}
+      />
     </View>
   );
 };

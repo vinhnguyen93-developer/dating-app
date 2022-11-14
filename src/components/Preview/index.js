@@ -103,7 +103,8 @@ const Preview = ({profile, navigation}) => {
                 navigation.navigate('Preview detail', {
                   profile,
                 })
-              }>
+              }
+              style={styles.buttonInfo}>
               <Feather name="alert-circle" size={28} color="#fff" />
             </TouchableOpacity>
           </View>
@@ -197,5 +198,10 @@ const styles = StyleSheet.create({
   wrapTag: {
     marginRight: 6,
     marginBottom: 8,
+  },
+  buttonInfo: {
+    position: 'absolute',
+    bottom: 20,
+    right: 8,
   },
 });
