@@ -1,11 +1,24 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Text, Pressable} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Pressable,
+  ScrollView,
+  TextInput,
+} from 'react-native';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+
 import Preview from '../../components/Preview';
 
 const EditInfoScreen = ({route, navigation}) => {
   const {profile} = route.params;
 
   const [active, setActive] = useState(true);
+  const [aboutMe, setAboutMe] = useState('');
+  const [jobTitle, setJobTitle] = useState('');
+  const [company, setCompany] = useState('');
+  const [school, setSchool] = useState('');
 
   return (
     <View style={styles.container}>
@@ -32,9 +45,71 @@ const EditInfoScreen = ({route, navigation}) => {
       </View>
 
       {active ? (
-        <View>
-          <Text>Edit info</Text>
-        </View>
+        <ScrollView style={styles.contentContainer}>
+          <View>
+            <Text style={styles.label}>ABOUT ME</Text>
+            <TextInput
+              style={[styles.input, styles.bg]}
+              maxLength={300}
+              multiline
+              value={aboutMe}
+              onChangeText={setAboutMe}
+            />
+            <Text style={[styles.textCount, styles.bg]}>
+              {300 - aboutMe.length}
+            </Text>
+          </View>
+
+          <View style={styles.mt}>
+            <Text style={styles.label}>INTERESTS</Text>
+            <View style={[styles.wrapInterest, styles.bg]}>
+              <Pressable style={styles.wrapTag}>
+                {profile?.tags.map((tag, index) => (
+                  <Text key={tag.id} style={styles.tag}>{`${tag.name} ${
+                    index === 4 ? '' : ','
+                  }`}</Text>
+                ))}
+              </Pressable>
+              <View>
+                <FontAwesome5Icon
+                  name="angle-right"
+                  size={24}
+                  color="#d4d8de"
+                />
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.mt}>
+            <Text style={styles.label}>JOB TITLE</Text>
+            <TextInput
+              style={[styles.input, styles.bg]}
+              value={jobTitle}
+              autoCapitalize="characters"
+              onChangeText={setJobTitle}
+            />
+          </View>
+
+          <View style={styles.mt}>
+            <Text style={styles.label}>COMPANY</Text>
+            <TextInput
+              style={[styles.input, styles.bg]}
+              value={company}
+              autoCapitalize="characters"
+              onChangeText={setCompany}
+            />
+          </View>
+
+          <View style={styles.mt}>
+            <Text style={styles.label}>SCHOOL</Text>
+            <TextInput
+              style={[styles.input, styles.bg]}
+              value={school}
+              autoCapitalize="characters"
+              onChangeText={setSchool}
+            />
+          </View>
+        </ScrollView>
       ) : (
         <View>
           <Preview profile={profile} navigation={navigation} />
@@ -52,6 +127,12 @@ const styles = StyleSheet.create({
     width: '100%',
     alignContent: 'center',
     backgroundColor: '#f0f2f4',
+  },
+  mt: {
+    marginTop: 20,
+  },
+  bg: {
+    backgroundColor: 'white',
   },
   wrapButtonTop: {
     flexDirection: 'row',
@@ -76,5 +157,47 @@ const styles = StyleSheet.create({
   },
   buttonActive: {
     color: '#D6002F',
+  },
+  contentContainer: {
+    paddingVertical: 20,
+  },
+  label: {
+    marginLeft: 10,
+    marginBottom: 6,
+    fontWeight: '700',
+    color: '#505965',
+  },
+  input: {
+    width: '100%',
+    paddingHorizontal: 10,
+    paddingTop: 14,
+    paddingBottom: 14,
+    fontSize: 14,
+    height: 'auto',
+    color: '#21262e',
+  },
+  textCount: {
+    textAlign: 'right',
+    paddingRight: 12,
+    paddingBottom: 8,
+    fontWeight: '700',
+    color: '#505965',
+  },
+  wrapInterest: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    justifyContent: 'space-between',
+  },
+  wrapTag: {
+    flexDirection: 'row',
+  },
+  tag: {
+    fontSize: 16,
+    fontWeight: '400',
+    color: '#21262e',
+    marginRight: 5,
   },
 });

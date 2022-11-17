@@ -40,7 +40,7 @@ const MessageScreen = ({route, navigation}) => {
 
       dispatch(sendMessage(userMatched?.matchId, message[0]));
 
-      if (userMatched?.isMatchNew === true) {
+      if (userMatched?.isNewMatch === true) {
         updateUserHaveMessage(userMatched?.matchId);
       }
     },

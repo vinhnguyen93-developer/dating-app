@@ -56,8 +56,8 @@ const UpdatePhotoView = ({route, navigation}) => {
 
   const choosePhotoFromLibrary = index => {
     ImagePicker.openPicker({
-      width: 800,
-      height: 1000,
+      width: 400,
+      height: 600,
       cropping: true,
     })
       .then(async image => {
