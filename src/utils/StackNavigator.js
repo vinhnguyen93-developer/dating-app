@@ -28,8 +28,14 @@ import UserView from '../components/UserView';
 import PreviewDetail from '../components/PreviewDetail';
 import Matching from '../screens/HomeScreen/Matching';
 import MessageScreen from '../screens/HomeScreen/Message';
+
+// Edit profile
 import EditInfoScreen from '../screens/HomeScreen/EditInfo';
 import UpdatePhotoView from '../components/UpdatePhoto';
+import UpdateInterest from '../components/UpdateInterest';
+import UpdateLocation from '../components/UpdateCity';
+import EditGender from '../components/UpdateGender';
+import EditGenderExpect from '../components/UpdateGenderExpect';
 
 import {setUserInfo} from '../redux/actions/auth';
 import LogoTitle from '../components/LogoTitle';
@@ -173,6 +179,13 @@ const StackNavigator = () => {
             />
 
             <Stack.Screen name="Update photo" component={UpdatePhotoView} />
+            <Stack.Screen name="Update interest" component={UpdateInterest} />
+            <Stack.Screen name="Update location" component={UpdateLocation} />
+            <Stack.Screen name="Edit gender" component={EditGender} />
+            <Stack.Screen
+              name="Edit gender expect"
+              component={EditGenderExpect}
+            />
           </Stack.Group>
         </Stack.Navigator>
       );

@@ -39,6 +39,8 @@ const UpdatePhotoView = ({route, navigation}) => {
   const [images, setImages] = useState(
     profile?.photoUrl.length === 3
       ? profile?.photoUrl
+      : profile?.photoUrl.length === 1
+      ? [...profile?.photoUrl, '', '']
       : [...profile?.photoUrl, ''],
   );
   const [activeButton, setActiveButton] = useState(false);

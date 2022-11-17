@@ -1,27 +1,25 @@
-import {useDispatch} from 'react-redux';
 import * as Animatable from 'react-native-animatable';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import React, {useLayoutEffect, useState} from 'react';
+import React, {useLayoutEffect, useMemo, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
-import ButtonPrimary from '../../components/Button/ButtonPrimary';
-import ButtonOutline from '../../components/Button/ButtonOutline';
-import {setUserInfo} from '../../redux/actions/auth';
+import ButtonPrimary from '../Button/ButtonPrimary';
+import ButtonOutline from '../Button/ButtonOutline';
+import {updateGender} from '../../lib/user';
 
-const ShowMe = ({navigation}) => {
+const EditGender = ({route, navigation}) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, [navigation]);
 
-  const dispatch = useDispatch();
+  const {profile} = route.params;
 
   const [buttonMan, setButtonMan] = useState(false);
   const [buttonWoman, setButtonWoman] = useState(false);
-
   const [buttonActive, setButtonActive] = useState(false);
-  const [gender, setGender] = useState('');
+  const [gender, setGender] = useState(profile?.gender);
 
   const handleChoose = data => {
     setGender(data);
@@ -29,22 +27,26 @@ const ShowMe = ({navigation}) => {
     if (data === 'male') {
       setButtonMan(true);
       setButtonWoman(false);
-    } else if (data === 'female') {
-      setButtonWoman(true);
-      setButtonMan(false);
     } else {
-      setButtonWoman(false);
       setButtonMan(false);
+      setButtonWoman(true);
     }
   };
 
-  const handleSubmit = data => {
-    dispatch(
-      setUserInfo({
-        gender_expect: data,
-      }),
-    );
-    navigation.navigate('Interests');
+  useMemo(() => {
+    setGender(profile?.gender);
+    if (profile?.gender === 'male') {
+      setButtonMan(true);
+      setButtonWoman(false);
+    } else {
+      setButtonMan(false);
+      setButtonWoman(true);
+    }
+  }, [profile]);
+
+  const handleSubmit = async data => {
+    await updateGender(profile?.uid, data);
+    navigation.goBack();
   };
 
   return (
@@ -57,7 +59,7 @@ const ShowMe = ({navigation}) => {
         </Animatable.View>
       </View>
       <View style={styles.wrapTile}>
-        <Text style={styles.textTile}>Show me</Text>
+        <Text style={styles.textTile}>Edit gender</Text>
       </View>
 
       <View style={styles.contentContainer}>
@@ -70,7 +72,7 @@ const ShowMe = ({navigation}) => {
           <TouchableOpacity
             onPress={() => handleChoose('male')}
             style={styles.buttonSub}>
-            <ButtonOutline title={'MEN'} active={buttonMan} />
+            <ButtonOutline title={'MAN'} active={buttonMan} />
           </TouchableOpacity>
         </View>
       </View>
@@ -79,13 +81,13 @@ const ShowMe = ({navigation}) => {
         disabled={!buttonActive}
         onPress={() => handleSubmit(gender)}
         style={styles.buttonContinue}>
-        <ButtonPrimary title={'CONTINUE'} active={buttonActive} />
+        <ButtonPrimary title={'UPDATE'} active={buttonActive} />
       </TouchableOpacity>
     </View>
   );
 };
 
-export default ShowMe;
+export default EditGender;
 
 const styles = StyleSheet.create({
   container: {
@@ -120,6 +122,6 @@ const styles = StyleSheet.create({
   },
   buttonContinue: {
     marginHorizontal: 30,
-    marginTop: '65%',
+    marginTop: '80%',
   },
 });

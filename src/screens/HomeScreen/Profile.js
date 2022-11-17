@@ -32,11 +32,7 @@ const ProfileScreen = ({navigation}) => {
         <View style={styles.wrapEditRow}>
           <View style={styles.containerEdit}>
             <Pressable
-              onPress={() =>
-                navigation.navigate('Edit Info', {
-                  profile,
-                })
-              }
+              onPress={() => navigation.navigate('Edit Info')}
               style={[styles.buttonEdit, styles.boxShadow]}>
               <FontAwesome5Icon name="pen" size={18} color="#505965" />
             </Pressable>

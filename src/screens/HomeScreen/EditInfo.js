@@ -8,11 +8,13 @@ import {
   TextInput,
 } from 'react-native';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import {useSelector} from 'react-redux';
 
 import Preview from '../../components/Preview';
+import {selectorProfile} from '../../redux/reducers/auth';
 
-const EditInfoScreen = ({route, navigation}) => {
-  const {profile} = route.params;
+const EditInfoScreen = ({navigation}) => {
+  const profile = useSelector(selectorProfile);
 
   const [active, setActive] = useState(true);
   const [aboutMe, setAboutMe] = useState('');
@@ -62,14 +64,16 @@ const EditInfoScreen = ({route, navigation}) => {
 
           <View style={styles.mt}>
             <Text style={styles.label}>INTERESTS</Text>
-            <View style={[styles.wrapInterest, styles.bg]}>
-              <Pressable style={styles.wrapTag}>
+            <Pressable
+              onPress={() => navigation.navigate('Update interest')}
+              style={[styles.wrapInterest, styles.bg]}>
+              <View style={styles.wrapTag}>
                 {profile?.tags.map((tag, index) => (
                   <Text key={tag.id} style={styles.tag}>{`${tag.name} ${
                     index === 4 ? '' : ','
                   }`}</Text>
                 ))}
-              </Pressable>
+              </View>
               <View>
                 <FontAwesome5Icon
                   name="angle-right"
@@ -77,7 +81,7 @@ const EditInfoScreen = ({route, navigation}) => {
                   color="#d4d8de"
                 />
               </View>
-            </View>
+            </Pressable>
           </View>
 
           <View style={styles.mt}>
@@ -95,7 +99,6 @@ const EditInfoScreen = ({route, navigation}) => {
             <TextInput
               style={[styles.input, styles.bg]}
               value={company}
-              autoCapitalize="characters"
               onChangeText={setCompany}
             />
           </View>
@@ -105,9 +108,68 @@ const EditInfoScreen = ({route, navigation}) => {
             <TextInput
               style={[styles.input, styles.bg]}
               value={school}
-              autoCapitalize="characters"
               onChangeText={setSchool}
             />
+          </View>
+
+          <View style={styles.mt}>
+            <Text style={styles.label}>LIVING IN</Text>
+            <Pressable
+              onPress={() => navigation.navigate('Update location', {profile})}
+              style={[styles.wrapInterest, styles.bg]}>
+              <View style={styles.wrapTag}>
+                <Text style={styles.tag}>{profile?.city}</Text>
+              </View>
+              <View>
+                <FontAwesome5Icon
+                  name="angle-right"
+                  size={24}
+                  color="#d4d8de"
+                />
+              </View>
+            </Pressable>
+          </View>
+
+          <View style={styles.mt}>
+            <Text style={styles.label}>GENDER</Text>
+            <Pressable
+              onPress={() => navigation.navigate('Edit gender', {profile})}
+              style={[styles.wrapInterest, styles.bg]}>
+              <View style={styles.wrapTag}>
+                <Text style={[styles.tag, styles.textTransform]}>
+                  {profile?.gender === 'male' ? 'Man' : 'Woman'}
+                </Text>
+              </View>
+              <View>
+                <FontAwesome5Icon
+                  name="angle-right"
+                  size={24}
+                  color="#d4d8de"
+                />
+              </View>
+            </Pressable>
+          </View>
+
+          <View style={[styles.mt, styles.mb]}>
+            <Text style={styles.label}>GENDER EXPECT</Text>
+            <Pressable
+              onPress={() =>
+                navigation.navigate('Edit gender expect', {profile})
+              }
+              style={[styles.wrapInterest, styles.bg]}>
+              <View style={styles.wrapTag}>
+                <Text style={[styles.tag, styles.textTransform]}>
+                  {profile?.gender_expect === 'male' ? 'Man' : 'Woman'}
+                </Text>
+              </View>
+              <View>
+                <FontAwesome5Icon
+                  name="angle-right"
+                  size={24}
+                  color="#d4d8de"
+                />
+              </View>
+            </Pressable>
           </View>
         </ScrollView>
       ) : (
@@ -130,6 +192,9 @@ const styles = StyleSheet.create({
   },
   mt: {
     marginTop: 20,
+  },
+  mb: {
+    marginBottom: 90,
   },
   bg: {
     backgroundColor: 'white',
@@ -159,7 +224,7 @@ const styles = StyleSheet.create({
     color: '#D6002F',
   },
   contentContainer: {
-    paddingVertical: 20,
+    paddingTop: 20,
   },
   label: {
     marginLeft: 10,
@@ -199,5 +264,8 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: '#21262e',
     marginRight: 5,
+  },
+  textTransform: {
+    textTransform: 'capitalize',
   },
 });
