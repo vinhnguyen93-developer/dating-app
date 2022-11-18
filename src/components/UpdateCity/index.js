@@ -22,8 +22,7 @@ const UpdateLocation = ({route, navigation}) => {
   const [isFocus, setIsFocus] = useState(false);
 
   const handleSubmit = async data => {
-    await updateLocation(profile?.uid, data);
-    navigation.goBack();
+    await updateLocation(profile?.uid, data, navigation);
   };
 
   return (

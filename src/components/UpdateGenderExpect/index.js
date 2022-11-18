@@ -45,8 +45,7 @@ const EditGenderExpect = ({route, navigation}) => {
   }, [profile]);
 
   const handleSubmit = async data => {
-    await updateGenderExpect(profile?.uid, data);
-    navigation.goBack();
+    await updateGenderExpect(profile?.uid, data, navigation);
   };
 
   return (

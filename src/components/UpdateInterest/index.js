@@ -51,8 +51,7 @@ const UpdateInterest = ({navigation}) => {
   };
 
   const handleSubmit = async data => {
-    await updateInterestTag(profile?.uid, data);
-    navigation.goBack();
+    await updateInterestTag(profile?.uid, data, navigation);
   };
 
   useEffect(() => {

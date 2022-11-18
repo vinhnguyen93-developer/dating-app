@@ -45,8 +45,7 @@ const EditGender = ({route, navigation}) => {
   }, [profile]);
 
   const handleSubmit = async data => {
-    await updateGender(profile?.uid, data);
-    navigation.goBack();
+    await updateGender(profile?.uid, data, navigation);
   };
 
   return (

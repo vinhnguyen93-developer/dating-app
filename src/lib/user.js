@@ -1,6 +1,6 @@
 import firestore from '@react-native-firebase/firestore';
 
-export const updateInterestTag = (userId, tags) => {
+export const updateInterestTag = (userId, tags, navigation) => {
   firestore()
     .collection('users')
     .doc(userId)
@@ -8,11 +8,11 @@ export const updateInterestTag = (userId, tags) => {
       tags: tags,
     })
     .then(() => {
-      console.log('update success');
+      navigation.goBack();
     });
 };
 
-export const updateLocation = (userId, city) => {
+export const updateLocation = (userId, city, navigation) => {
   firestore()
     .collection('users')
     .doc(userId)
@@ -20,11 +20,11 @@ export const updateLocation = (userId, city) => {
       city: city,
     })
     .then(() => {
-      console.log('update success');
+      navigation.goBack();
     });
 };
 
-export const updateGender = (userId, gender) => {
+export const updateGender = (userId, gender, navigation) => {
   firestore()
     .collection('users')
     .doc(userId)
@@ -32,11 +32,11 @@ export const updateGender = (userId, gender) => {
       gender: gender,
     })
     .then(() => {
-      console.log('update success');
+      navigation.goBack();
     });
 };
 
-export const updateGenderExpect = (userId, gender) => {
+export const updateGenderExpect = (userId, gender, navigation) => {
   firestore()
     .collection('users')
     .doc(userId)
@@ -44,6 +44,18 @@ export const updateGenderExpect = (userId, gender) => {
       gender_expect: gender,
     })
     .then(() => {
-      console.log('update success');
+      navigation.goBack();
+    });
+};
+
+export const updateProfileInfo = (userId, data, navigation) => {
+  firestore()
+    .collection('users')
+    .doc(userId)
+    .update({
+      ...data,
+    })
+    .then(() => {
+      navigation.goBack();
     });
 };

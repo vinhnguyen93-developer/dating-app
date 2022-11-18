@@ -40,7 +40,6 @@ import EditGenderExpect from '../components/UpdateGenderExpect';
 import {setUserInfo} from '../redux/actions/auth';
 import LogoTitle from '../components/LogoTitle';
 import MessageHeader from '../components/MessageHeader';
-import {Button} from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
@@ -161,22 +160,7 @@ const StackNavigator = () => {
               })}
             />
 
-            <Stack.Screen
-              name="Edit Info"
-              component={EditInfoScreen}
-              options={({route, navigation}) => ({
-                headerBackTitleVisible: false,
-                headerTitle: 'Edit Info',
-                headerBackVisible: false,
-                headerRight: () => (
-                  <Button
-                    title="Done"
-                    onPress={() => navigation.goBack()}
-                    color="#D6002F"
-                  />
-                ),
-              })}
-            />
+            <Stack.Screen name="Edit Info" component={EditInfoScreen} />
 
             <Stack.Screen name="Update photo" component={UpdatePhotoView} />
             <Stack.Screen name="Update interest" component={UpdateInterest} />

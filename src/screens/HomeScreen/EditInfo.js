@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -6,21 +6,53 @@ import {
   Pressable,
   ScrollView,
   TextInput,
+  Button,
 } from 'react-native';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import {useSelector} from 'react-redux';
 
 import Preview from '../../components/Preview';
+import {updateProfileInfo} from '../../lib/user';
 import {selectorProfile} from '../../redux/reducers/auth';
 
 const EditInfoScreen = ({navigation}) => {
   const profile = useSelector(selectorProfile);
 
   const [active, setActive] = useState(true);
-  const [aboutMe, setAboutMe] = useState('');
-  const [jobTitle, setJobTitle] = useState('');
-  const [company, setCompany] = useState('');
-  const [school, setSchool] = useState('');
+  const [aboutMe, setAboutMe] = useState(
+    profile?.aboutMe ? profile?.aboutMe : '',
+  );
+  const [jobTitle, setJobTitle] = useState(
+    profile?.jobTitle ? profile?.jobTitle : '',
+  );
+  const [company, setCompany] = useState(
+    profile?.company ? profile?.company : '',
+  );
+  const [school, setSchool] = useState(profile?.school ? profile?.school : '');
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerBackTitleVisible: false,
+      headerTitle: 'Edit Info',
+      headerBackVisible: false,
+      headerRight: () => (
+        <Button
+          title="Done"
+          onPress={() => {
+            const data = {
+              aboutMe: aboutMe,
+              jobTitle: jobTitle,
+              company: company,
+              school: school,
+            };
+
+            updateProfileInfo(profile?.uid, data, navigation);
+          }}
+          color="#D6002F"
+        />
+      ),
+    });
+  }, [navigation, aboutMe, jobTitle, company, school, profile]);
 
   return (
     <View style={styles.container}>
@@ -89,7 +121,6 @@ const EditInfoScreen = ({navigation}) => {
             <TextInput
               style={[styles.input, styles.bg]}
               value={jobTitle}
-              autoCapitalize="characters"
               onChangeText={setJobTitle}
             />
           </View>

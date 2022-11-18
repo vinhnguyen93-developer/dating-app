@@ -98,11 +98,50 @@ const PreviewDetail = ({route, navigation}) => {
 
         <View style={styles.boxContainer}>
           <View style={styles.rowContainer}>
-            <FontAwesome5Icon name={'home'} size={16} color={'#505965'} />
-            <Text style={[styles.textColor, styles.ml_4, styles.textSize18]}>
+            <FontAwesome5Icon name={'home'} size={15} color={'#505965'} />
+            <Text
+              style={[
+                styles.textColor,
+                styles.ml_10,
+                styles.mb,
+                styles.textSize18,
+              ]}>
               {`Live in ${profile.city}`}
             </Text>
           </View>
+          {profile.jobTitle && (
+            <View style={styles.rowContainer}>
+              <FontAwesome5Icon name={'suitcase'} size={15} color={'#505965'} />
+              <Text
+                style={[
+                  styles.textColor,
+                  styles.ml_11,
+                  styles.mb,
+                  styles.textSize18,
+                ]}>
+                {`${profile.jobTitle} at ${profile.company}`}
+              </Text>
+            </View>
+          )}
+
+          {profile.school && (
+            <View style={styles.rowContainer}>
+              <FontAwesome5Icon
+                name={'graduation-cap'}
+                size={15}
+                color={'#505965'}
+              />
+              <Text
+                style={[
+                  styles.textColor,
+                  styles.ml_8,
+                  styles.mb,
+                  styles.textSize18,
+                ]}>
+                {profile.school}
+              </Text>
+            </View>
+          )}
         </View>
 
         {profile.aboutMe && (
@@ -180,7 +219,7 @@ const styles = StyleSheet.create({
   },
   boxContainer: {
     paddingHorizontal: 16,
-    paddingVertical: 10,
+    paddingVertical: 8,
   },
   rowContainer: {
     flexDirection: 'row',
@@ -198,11 +237,20 @@ const styles = StyleSheet.create({
   textColor: {
     color: '#505965',
   },
-  ml_4: {
-    marginLeft: 4,
+  ml_8: {
+    marginLeft: 8,
+  },
+  ml_11: {
+    marginLeft: 12,
+  },
+  ml_10: {
+    marginLeft: 10,
+  },
+  mb: {
+    marginBottom: 6,
   },
   textSize18: {
-    fontSize: 18,
+    fontSize: 16,
   },
   textTitle: {
     fontSize: 18,

@@ -76,14 +76,44 @@ const Preview = ({profile, navigation}) => {
               <Text style={styles.age}>{profile?.ages}</Text>
             </View>
             {imageActive === 0 && (
-              <View style={styles.livingContainer}>
-                <FontAwesome5Icon name={'home'} size={12} color={'#fff'} />
-                <Text style={styles.city}>{`Lives in ${profile?.city}`}</Text>
-              </View>
+              <>
+                <View style={styles.livingContainer}>
+                  <FontAwesome5Icon name={'home'} size={12} color={'#fff'} />
+                  <Text style={styles.city}>{`Lives in ${profile?.city}`}</Text>
+                </View>
+                {profile.jobTitle && (
+                  <View style={styles.livingContainer}>
+                    <FontAwesome5Icon
+                      name={'suitcase'}
+                      size={12}
+                      color={'#fff'}
+                    />
+                    <Text
+                      style={
+                        styles.city
+                      }>{`${profile?.jobTitle} at ${profile?.company}`}</Text>
+                  </View>
+                )}
+                {profile.school && (
+                  <View style={styles.livingContainer}>
+                    <FontAwesome5Icon
+                      name={'graduation-cap'}
+                      size={12}
+                      color={'#fff'}
+                    />
+                    <Text style={styles.city}>{profile.school}</Text>
+                  </View>
+                )}
+              </>
             )}
             {imageActive === 1 && profile?.aboutMe ? (
-              <View>
-                <Text>{profile?.aboutMe}</Text>
+              <View style={styles.wrapAboutMe}>
+                <Text
+                  style={styles.textAboutMe}
+                  ellipsizeMode="tail"
+                  numberOfLines={4}>
+                  {profile?.aboutMe}
+                </Text>
               </View>
             ) : (
               imageActive !== 0 && (
@@ -167,6 +197,14 @@ const styles = StyleSheet.create({
   wrapName: {
     flexDirection: 'row',
     alignItems: 'baseline',
+  },
+  wrapAboutMe: {
+    width: '90%',
+    paddingBottom: 5,
+  },
+  textAboutMe: {
+    color: 'white',
+    fontSize: 18,
   },
   name: {
     fontSize: 32,
