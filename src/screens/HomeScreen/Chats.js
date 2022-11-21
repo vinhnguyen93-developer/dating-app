@@ -8,9 +8,9 @@ import {
   Pressable,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+
 import ChatRow from '../../components/ChatRow';
 import {getUserMatches} from '../../redux/actions/chats';
-
 import {selectorProfile} from '../../redux/reducers/auth';
 import {selectorUserMatches} from '../../redux/reducers/chats';
 
@@ -30,14 +30,12 @@ const ChatsScreen = ({navigation}) => {
 
   return (
     <ScrollView style={styles.container}>
-      {usersMatchNew.length > 0 && (
-        <Text style={styles.titleMatches}>New Matches</Text>
-      )}
+      <Text style={styles.titleMatches}>New Matches</Text>
       <ScrollView
         style={styles.containerSlideUser}
         horizontal
         showsHorizontalScrollIndicator={false}>
-        {usersMatchNew.length > 0 &&
+        {usersMatchNew.length > 0 ? (
           usersMatchNew.map(user => (
             <Pressable
               onPress={() =>
@@ -58,13 +56,23 @@ const ChatsScreen = ({navigation}) => {
               </View>
               <Text style={styles.userName}>{user.firstName}</Text>
             </Pressable>
-          ))}
+          ))
+        ) : (
+          <View style={styles.wrapNoMatches}>
+            <Image
+              source={require('../../assets/images/broken-heart.png')}
+              style={styles.imageNoMatches}
+            />
+            <Text style={styles.emptyMessageContent}>
+              You don't have new matches
+            </Text>
+          </View>
+        )}
       </ScrollView>
       <View>
-        {usersHaveMessage.length > 0 && (
-          <Text style={styles.titleMatches}>Messages</Text>
-        )}
-        {usersHaveMessage.length > 0 &&
+        <Text style={styles.titleMatches}>Messages</Text>
+
+        {usersHaveMessage.length > 0 ? (
           usersHaveMessage.map(user => (
             <ChatRow
               key={user.uid}
@@ -72,7 +80,19 @@ const ChatsScreen = ({navigation}) => {
               profile={profile}
               navigation={navigation}
             />
-          ))}
+          ))
+        ) : (
+          <View style={styles.emptyMessageContainer}>
+            <Image
+              source={require('../../assets/images/chat.png')}
+              style={styles.imageChatEmpty}
+            />
+            <Text style={styles.emptyMessageTitle}>Say Hello</Text>
+            <Text style={styles.emptyMessageContent}>
+              Tap on a new match above to send a message
+            </Text>
+          </View>
+        )}
       </View>
     </ScrollView>
   );
@@ -144,5 +164,38 @@ const styles = StyleSheet.create({
   message: {
     color: '#505965',
     fontSize: 17,
+  },
+  emptyMessageContainer: {
+    display: 'flex',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '10%',
+  },
+  imageChatEmpty: {
+    width: 200,
+    height: 200,
+  },
+  imageNoMatches: {
+    width: 80,
+    height: 80,
+  },
+  emptyMessageTitle: {
+    fontSize: 26,
+    fontWeight: '600',
+    color: '#21262e',
+    marginTop: 10,
+  },
+  emptyMessageContent: {
+    fontSize: 16,
+    color: '#505965',
+    marginTop: 5,
+    width: 250,
+    textAlign: 'center',
+  },
+  wrapNoMatches: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'baseline',
   },
 });

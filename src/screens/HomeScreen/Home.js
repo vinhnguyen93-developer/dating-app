@@ -108,21 +108,51 @@ const Home = ({navigation}) => {
                         <Text style={styles.age}>{card?.ages}</Text>
                       </View>
                       {indexImage === 0 && (
-                        <View style={styles.livingContainer}>
-                          <FontAwesome5Icon
-                            name={'home'}
-                            size={12}
-                            color={'#fff'}
-                          />
-                          <Text
-                            style={
-                              styles.city
-                            }>{`Lives in ${card?.city}`}</Text>
-                        </View>
+                        <>
+                          <View style={styles.livingContainer}>
+                            <FontAwesome5Icon
+                              name={'home'}
+                              size={12}
+                              color={'#fff'}
+                            />
+                            <Text
+                              style={
+                                styles.city
+                              }>{`Lives in ${card?.city}`}</Text>
+                          </View>
+                          {card?.jobTitle && (
+                            <View style={styles.livingContainer}>
+                              <FontAwesome5Icon
+                                name={'suitcase'}
+                                size={12}
+                                color={'#fff'}
+                              />
+                              <Text
+                                style={
+                                  styles.city
+                                }>{`${card?.jobTitle} at ${card?.company}`}</Text>
+                            </View>
+                          )}
+                          {card?.school && (
+                            <View style={styles.livingContainer}>
+                              <FontAwesome5Icon
+                                name={'graduation-cap'}
+                                size={12}
+                                color={'#fff'}
+                              />
+                              <Text style={styles.city}>{card?.school}</Text>
+                            </View>
+                          )}
+                        </>
                       )}
                       {indexImage === 1 && card?.aboutMe ? (
-                        <View>
-                          <Text>{card?.aboutMe}</Text>
+                        <View style={styles.wrapAboutMe}>
+                          <Text
+                            ellipsizeMode="tail"
+                            numberOfLines={4}
+                            style={styles.textAboutMe}>
+                            {card?.aboutMe}
+                          </Text>
                         </View>
                       ) : (
                         indexImage !== 0 && (
@@ -375,5 +405,13 @@ const styles = StyleSheet.create({
   wrapTag: {
     marginRight: 6,
     marginBottom: 8,
+  },
+  wrapAboutMe: {
+    width: '90%',
+    paddingBottom: 5,
+  },
+  textAboutMe: {
+    color: 'white',
+    fontSize: 18,
   },
 });

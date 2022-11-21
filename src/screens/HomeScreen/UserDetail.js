@@ -109,12 +109,36 @@ const UserDetail = ({route, navigation}) => {
         </View>
 
         <View style={styles.boxContainer}>
-          <View style={styles.rowContainer}>
+          <View style={[styles.rowContainer, styles.mb]}>
             <FontAwesome5Icon name={'home'} size={16} color={'#505965'} />
             <Text style={[styles.textColor, styles.ml_4, styles.textSize18]}>
               {`Live in ${partnerProfile.city}`}
             </Text>
           </View>
+
+          {partnerProfile?.jobTitle && (
+            <View style={[styles.rowContainer, styles.mb]}>
+              <FontAwesome5Icon name={'suitcase'} size={16} color={'#505965'} />
+              <Text style={[styles.textColor, styles.ml_4, styles.textSize18]}>
+                {`${partnerProfile.jobTitle} ${
+                  partnerProfile?.company ? 'at' : ''
+                } ${partnerProfile?.company}`}
+              </Text>
+            </View>
+          )}
+
+          {partnerProfile?.school && (
+            <View style={styles.rowContainer}>
+              <FontAwesome5Icon
+                name={'graduation-cap'}
+                size={14}
+                color={'#505965'}
+              />
+              <Text style={[styles.textColor, styles.ml_4, styles.textSize18]}>
+                {partnerProfile?.school}
+              </Text>
+            </View>
+          )}
         </View>
 
         {partnerProfile?.aboutMe && (
@@ -233,7 +257,10 @@ const styles = StyleSheet.create({
     color: '#505965',
   },
   ml_4: {
-    marginLeft: 4,
+    marginLeft: 10,
+  },
+  mb: {
+    marginBottom: 4,
   },
   textSize18: {
     fontSize: 18,
