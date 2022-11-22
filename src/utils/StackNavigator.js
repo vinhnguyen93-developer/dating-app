@@ -24,6 +24,7 @@ import Interests from '../screens/ProfileScreen/Interests';
 import MyLocation from '../screens/ProfileScreen/MyLocation';
 import MyPhoto from '../screens/ProfileScreen/MyPhoto';
 import UserDetail from '../screens/HomeScreen/UserDetail';
+import UserLikeDetail from '../screens/HomeScreen/UserLikeDetail';
 import UserView from '../components/UserView';
 import PreviewDetail from '../components/PreviewDetail';
 import Matching from '../screens/HomeScreen/Matching';
@@ -121,6 +122,13 @@ const StackNavigator = () => {
               }}
               name="User detail"
               component={UserDetail}
+            />
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="User like detail"
+              component={UserLikeDetail}
             />
             <Stack.Screen
               options={{

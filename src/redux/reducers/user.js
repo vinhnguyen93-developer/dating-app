@@ -4,6 +4,7 @@ const initState = {
   users: [],
   userPasses: [],
   userSwipes: [],
+  userLikeMe: [],
   loading: false,
   message: '',
 };
@@ -84,6 +85,22 @@ const userReducer = (state = initState, action) => {
     case actionTypes.SWIPED_LIKE_USER_FAILED:
       return {
         ...state,
+      };
+    case actionTypes.GET_USER_LIKE_ME:
+      return {
+        ...state,
+        loading: true,
+      };
+    case actionTypes.GET_USER_LIKE_ME_SUCCESS:
+      return {
+        ...state,
+        userLikeMe: [...state.userLikeMe, action.payload.data],
+        loading: false,
+      };
+    case actionTypes.GET_USER_LIKE_ME_FAILED:
+      return {
+        ...state,
+        loading: false,
       };
     default:
       return {

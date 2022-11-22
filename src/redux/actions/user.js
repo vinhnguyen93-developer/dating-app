@@ -182,3 +182,34 @@ export const getUserSwiped = userId => async dispatch => {
     });
   }
 };
+
+export const getUserLikeMe = (users, profileId) => async dispatch => {
+  try {
+    dispatch({type: actionTypes.GET_USER_LIKE_ME});
+
+    users.map(user => {
+      firestore()
+        .collection('users')
+        .doc(user.uid)
+        .collection('swipes')
+        .doc(profileId)
+        .onSnapshot(snapshots => {
+          if (snapshots.exists === true) {
+            dispatch({
+              type: actionTypes.GET_USER_LIKE_ME_SUCCESS,
+              payload: {
+                data: user,
+              },
+            });
+          }
+        });
+    });
+  } catch (error) {
+    dispatch({
+      type: actionTypes.GET_USER_LIKE_ME_FAILED,
+      payload: {
+        message: error,
+      },
+    });
+  }
+};
