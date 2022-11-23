@@ -23,15 +23,26 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>fb844687496156209</string>
+				<string>com.googleusercontent.apps.381310757192-7tfhb9nj73ir6sinbqu4dvc63p7o7gac</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>FacebookAppID</key>
+	<string>844687496156209</string>
+	<key>FacebookClientToken</key>
+	<string>f63a56a87031c37d059e2c67ddd524d1</string>
+	<key>FacebookDisplayName</key>
+	<string>DATINGAPP</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -45,12 +56,12 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>This app requires access to the camera.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app requires access to the photo library.</string>
-	<key>NSCameraUsageDescription</key>
-	<string>This app requires access to the camera.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>FontAwesome5_Brands.ttf</string>
@@ -73,28 +84,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-		<key>CFBundleURLSchemes</key>
-		<array>
-			<string>fb844687496156209</string>
-			<string>com.googleusercontent.apps.381310757192-7tfhb9nj73ir6sinbqu4dvc63p7o7gac</string>
-		</array>
-		</dict>
-	</array>
-	<key>FacebookAppID</key>
-	<string>844687496156209</string>
-	<key>FacebookClientToken</key>
-	<string>f63a56a87031c37d059e2c67ddd524d1</string>
-	<key>FacebookDisplayName</key>
-	<string>DATINGAPP</string>
-
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>fbapi</string>
-		<string>fb-messenger-share-api</string>
-	</array>
 </dict>
 </plist>

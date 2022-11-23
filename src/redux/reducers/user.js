@@ -102,6 +102,11 @@ const userReducer = (state = initState, action) => {
         ...state,
         loading: false,
       };
+    case actionTypes.UPDATE_USER_LIKE_ME:
+      return {
+        ...state,
+        userLikeMe: action.payload.data,
+      };
     default:
       return {
         ...state,

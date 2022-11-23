@@ -14,10 +14,12 @@ import * as Animatable from 'react-native-animatable';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
 import LinearGradient from 'react-native-linear-gradient';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import Tag from '../../components/Tag';
 import {swipeLeft, swipeRight} from '../../redux/actions/user';
+import * as actionTypes from '../../redux/types';
+import {selectorUser} from '../../redux/reducers/user';
 
 const {width} = Dimensions.get('window');
 const height = (width * 100) / 80;
@@ -34,6 +36,7 @@ const UserLikeDetail = ({route, navigation}) => {
   }, [navigation]);
 
   const dispatch = useDispatch();
+  const {userLikeMe} = useSelector(selectorUser);
   const {userLikeProfile, myProfile} = route.params;
 
   const [imageActive, setImageActive] = useState(0);
@@ -48,13 +51,28 @@ const UserLikeDetail = ({route, navigation}) => {
     }
   };
 
+  const updateUserLikeMe = () => {
+    const newUserLikeMe = userLikeMe.filter(
+      user => user.uid !== userLikeProfile.uid,
+    );
+
+    dispatch({
+      type: actionTypes.UPDATE_USER_LIKE_ME,
+      payload: {
+        data: newUserLikeMe,
+      },
+    });
+  };
+
   const handleSwipeLeft = () => {
     dispatch(swipeLeft(userLikeProfile, myProfile.uid));
+    updateUserLikeMe();
     navigation.goBack();
   };
 
   const handleSwipeRight = () => {
     dispatch(swipeRight(userLikeProfile, myProfile, navigation));
+    updateUserLikeMe();
   };
 
   return (
@@ -117,30 +135,6 @@ const UserLikeDetail = ({route, navigation}) => {
               {`Live in ${userLikeProfile.city}`}
             </Text>
           </View>
-
-          {userLikeProfile?.jobTitle && (
-            <View style={[styles.rowContainer, styles.mb]}>
-              <FontAwesome5Icon name={'suitcase'} size={16} color={'#505965'} />
-              <Text style={[styles.textColor, styles.ml_4, styles.textSize18]}>
-                {`${userLikeProfile.jobTitle} ${
-                  userLikeProfile?.company ? 'at' : ''
-                } ${userLikeProfile?.company}`}
-              </Text>
-            </View>
-          )}
-
-          {userLikeProfile?.school && (
-            <View style={styles.rowContainer}>
-              <FontAwesome5Icon
-                name={'graduation-cap'}
-                size={14}
-                color={'#505965'}
-              />
-              <Text style={[styles.textColor, styles.ml_4, styles.textSize18]}>
-                {userLikeProfile?.school}
-              </Text>
-            </View>
-          )}
 
           {userLikeProfile?.jobTitle && (
             <View style={[styles.rowContainer, styles.mb]}>
