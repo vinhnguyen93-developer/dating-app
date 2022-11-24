@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   Pressable,
@@ -19,9 +19,21 @@ const LikeScreen = ({navigation}) => {
   const profile = useSelector(selectorProfile);
   const {users, userLikeMe} = useSelector(selectorUser);
 
+  const [uniqueUsers, setUniqueUsers] = useState([]);
+
   useEffect(() => {
     dispatch(getUserLikeMe(users, profile?.uid));
   }, [users, profile, dispatch]);
+
+  useEffect(() => {
+    if (userLikeMe.length > 0) {
+      const uniqueUser = userLikeMe.filter((user, index, self) => {
+        return index === self.findIndex(item => item.uid === user.uid);
+      });
+
+      setUniqueUsers(uniqueUser);
+    }
+  }, [userLikeMe]);
 
   return (
     <View style={styles.container}>
@@ -29,9 +41,9 @@ const LikeScreen = ({navigation}) => {
         <Text style={styles.textLike}>{`${userLikeMe.length} Likes`}</Text>
       </View>
       <ScrollView>
-        {userLikeMe.length > 0 ? (
+        {uniqueUsers.length > 0 ? (
           <View style={styles.contentContainer}>
-            {userLikeMe.map(user => (
+            {uniqueUsers.map(user => (
               <Pressable
                 onPress={() =>
                   navigation.navigate('User like detail', {

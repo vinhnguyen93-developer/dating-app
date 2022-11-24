@@ -15,7 +15,7 @@ export const getUsers =
       const userPasses = user?.userPasses;
       const userSwipes = user?.userSwipes;
 
-      firestore()
+      await firestore()
         .collection('users')
         .where('uid', 'not-in', [...userPasses, ...userSwipes, ''])
         .get()

@@ -1,14 +1,16 @@
 import React from 'react';
 import {Image, StyleSheet, Text, View, Pressable} from 'react-native';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {selectorProfile} from '../../redux/reducers/auth';
 import {useAuthContext} from '../../context/AuthContext';
+import * as actionTypes from '../../redux/types';
 
 const ProfileScreen = ({navigation}) => {
   const profile = useSelector(selectorProfile);
   const {logout} = useAuthContext();
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
@@ -57,7 +59,15 @@ const ProfileScreen = ({navigation}) => {
 
       <View style={styles.wrapButton}>
         <Pressable
-          onPress={logout}
+          onPress={() => {
+            dispatch({
+              type: actionTypes.UPDATE_USER_LIKE_ME,
+              payload: {
+                data: [],
+              },
+            });
+            logout();
+          }}
           style={[styles.buttonContainer, styles.boxShadow]}>
           <Text style={styles.textButton}>logout</Text>
         </Pressable>

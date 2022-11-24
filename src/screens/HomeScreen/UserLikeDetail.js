@@ -17,7 +17,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {useDispatch, useSelector} from 'react-redux';
 
 import Tag from '../../components/Tag';
-import {swipeLeft, swipeRight} from '../../redux/actions/user';
+import {getUsers, swipeLeft, swipeRight} from '../../redux/actions/user';
 import * as actionTypes from '../../redux/types';
 import {selectorUser} from '../../redux/reducers/user';
 
@@ -64,15 +64,21 @@ const UserLikeDetail = ({route, navigation}) => {
     });
   };
 
-  const handleSwipeLeft = () => {
-    dispatch(swipeLeft(userLikeProfile, myProfile.uid));
-    updateUserLikeMe();
+  const handleSwipeLeft = async () => {
+    await dispatch(swipeLeft(userLikeProfile, myProfile.uid));
+    await updateUserLikeMe();
+    dispatch(
+      getUsers(myProfile?.city, myProfile?.gender_expect, myProfile?.uid),
+    );
     navigation.goBack();
   };
 
-  const handleSwipeRight = () => {
-    dispatch(swipeRight(userLikeProfile, myProfile, navigation));
-    updateUserLikeMe();
+  const handleSwipeRight = async () => {
+    await dispatch(swipeRight(userLikeProfile, myProfile, navigation));
+    await updateUserLikeMe();
+    dispatch(
+      getUsers(myProfile?.city, myProfile?.gender_expect, myProfile?.uid),
+    );
   };
 
   return (
