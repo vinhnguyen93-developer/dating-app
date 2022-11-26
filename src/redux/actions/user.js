@@ -44,6 +44,47 @@ export const getUsers =
     }
   };
 
+export const getUsersSpecial =
+  (city, gender, userId) => async (dispatch, getState) => {
+    try {
+      dispatch({type: actionTypes.GET_USER_SPECIAL});
+
+      await dispatch(getUserPasses(userId));
+      await dispatch(getUserSwiped(userId));
+
+      const {user} = getState();
+      const userPasses = user?.userPasses;
+      const userSwipes = user?.userSwipes;
+
+      await firestore()
+        .collection('users')
+        .where('uid', 'not-in', [...userPasses, ...userSwipes, ''])
+        // .get()
+        .onSnapshot(QuerySnapshot => {
+          const users = QuerySnapshot.docs
+            .map(doc => doc.data())
+            .filter(
+              userPartner =>
+                userPartner.city === city && userPartner.gender === gender,
+            );
+
+          dispatch({
+            type: actionTypes.GET_USER_SPECIAL_SUCCESS,
+            payload: {
+              data: users,
+            },
+          });
+        });
+    } catch (error) {
+      dispatch({
+        type: actionTypes.GET_USER_SPECIAL_FAILED,
+        payload: {
+          message: error,
+        },
+      });
+    }
+  };
+
 export const swipeLeft =
   (partnerProfile, userId) => async (dispatch, getState) => {
     try {

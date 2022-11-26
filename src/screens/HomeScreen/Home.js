@@ -15,9 +15,15 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {selectorProfile} from '../../redux/reducers/auth';
-import {getUsers, swipeLeft, swipeRight} from '../../redux/actions/user';
+import {
+  getUsers,
+  getUsersSpecial,
+  swipeLeft,
+  swipeRight,
+} from '../../redux/actions/user';
 import {selectorUser} from '../../redux/reducers/user';
 import Tag from '../../components/Tag';
+import * as actionTypes from '../../redux/types';
 
 const Home = ({navigation}) => {
   const dispatch = useDispatch();
@@ -36,15 +42,21 @@ const Home = ({navigation}) => {
     }, 3000);
   }, [dispatch, profile]);
 
+  useEffect(() => {
+    dispatch(
+      getUsersSpecial(profile?.city, profile?.gender_expect, profile?.uid),
+    );
+  }, [dispatch, profile]);
+
   return (
     <>
       <View style={styles.container}>
         <Swiper
           ref={swipeRef}
           cards={users}
-          renderCard={(card, index) => {
-            return (
-              <View key={index} style={styles.card}>
+          renderCard={card =>
+            card ? (
+              <View key={card.uid} style={styles.card}>
                 {card?.photoUrl.length !== 1 && (
                   <>
                     <View style={styles.wrapProgressBar}>
@@ -60,7 +72,6 @@ const Home = ({navigation}) => {
                         />
                       ))}
                     </View>
-
                     <View style={styles.wrapButtonNextImage}>
                       <Pressable
                         onPress={() => {
@@ -204,17 +215,37 @@ const Home = ({navigation}) => {
                   </View>
                 </LinearGradient>
               </View>
-            );
-          }}
+            ) : (
+              <View style={styles.cardEmpty}>
+                <Image
+                  source={require('../../assets/images/sad.png')}
+                  style={styles.imageEmpty}
+                />
+                <Text style={styles.textEmpty}>No more profile</Text>
+              </View>
+            )
+          }
           onSwiped={cardIndex => {
             setIndexImage(0);
-            console.log(cardIndex);
+            dispatch({
+              type: actionTypes.UPDATE_USER_LIKE_ME,
+              payload: {
+                data: [],
+              },
+            });
           }}
           onSwipedAll={() => {
             console.log('swipe all');
           }}
           onSwipedLeft={cardIndex => {
             dispatch(swipeLeft(users[cardIndex], profile?.uid));
+            dispatch(
+              getUsersSpecial(
+                profile?.city,
+                profile?.gender_expect,
+                profile?.uid,
+              ),
+            );
           }}
           onSwipedRight={cardIndex => {
             dispatch(swipeRight(users[cardIndex], profile, navigation));
@@ -264,9 +295,10 @@ const Home = ({navigation}) => {
               },
             },
           }}
-          stackSize={2}
+          stackSize={3}
           cardHorizontalMargin={4}
           cardVerticalMargin={10}
+          verticalSwipe={false}
           cardIndex={indexImage}
           backgroundColor={'transparent'}
         />
@@ -298,6 +330,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'transparent',
     position: 'relative',
+  },
+  cardEmpty: {
+    height: '77%',
+    borderRadius: 10,
+    justifyContent: 'center',
+    backgroundColor: '#eaeaea',
   },
   cardImage: {
     width: '100%',
@@ -413,5 +451,16 @@ const styles = StyleSheet.create({
   textAboutMe: {
     color: 'white',
     fontSize: 18,
+  },
+  imageEmpty: {
+    width: 220,
+    height: 220,
+    alignSelf: 'center',
+  },
+  textEmpty: {
+    fontSize: 26,
+    color: '#21262e',
+    marginTop: 20,
+    alignSelf: 'center',
   },
 });

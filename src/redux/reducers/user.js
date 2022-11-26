@@ -5,6 +5,7 @@ const initState = {
   userPasses: [],
   userSwipes: [],
   userLikeMe: [],
+  userSpecials: [],
   loading: false,
   message: '',
 };
@@ -106,6 +107,22 @@ const userReducer = (state = initState, action) => {
       return {
         ...state,
         userLikeMe: action.payload.data,
+      };
+    case actionTypes.GET_USER_SPECIAL:
+      return {
+        ...state,
+        loading: true,
+      };
+    case actionTypes.GET_USER_SPECIAL_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        userSpecials: action.payload.data,
+      };
+    case actionTypes.GET_USER_SPECIAL_FAILED:
+      return {
+        ...state,
+        loading: false,
       };
     default:
       return {

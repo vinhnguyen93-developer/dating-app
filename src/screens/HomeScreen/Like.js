@@ -17,13 +17,13 @@ const LikeScreen = ({navigation}) => {
   const dispatch = useDispatch();
 
   const profile = useSelector(selectorProfile);
-  const {users, userLikeMe} = useSelector(selectorUser);
+  const {userSpecials, userLikeMe} = useSelector(selectorUser);
 
   const [uniqueUsers, setUniqueUsers] = useState([]);
 
   useEffect(() => {
-    dispatch(getUserLikeMe(users, profile?.uid));
-  }, [users, profile, dispatch]);
+    dispatch(getUserLikeMe(userSpecials, profile?.uid));
+  }, [userSpecials, profile, dispatch]);
 
   useEffect(() => {
     if (userLikeMe.length > 0) {
@@ -38,7 +38,7 @@ const LikeScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.wrapLikeTitle}>
-        <Text style={styles.textLike}>{`${userLikeMe.length} Likes`}</Text>
+        <Text style={styles.textLike}>{`${uniqueUsers.length} Likes`}</Text>
       </View>
       <ScrollView>
         {uniqueUsers.length > 0 ? (
@@ -66,7 +66,13 @@ const LikeScreen = ({navigation}) => {
             ))}
           </View>
         ) : (
-          <Text>Hello</Text>
+          <View style={styles.likeEmpty}>
+            <Image
+              source={require('../../assets/images/sad.png')}
+              style={styles.imageEmpty}
+            />
+            <Text style={styles.textEmpty}>Don't have user like you!</Text>
+          </View>
         )}
       </ScrollView>
     </View>
@@ -136,5 +142,20 @@ const styles = StyleSheet.create({
   },
   textName: {
     marginRight: 4,
+  },
+  likeEmpty: {
+    paddingTop: '30%',
+    justifyContent: 'center',
+  },
+  imageEmpty: {
+    width: 200,
+    height: 200,
+    alignSelf: 'center',
+  },
+  textEmpty: {
+    fontSize: 26,
+    color: '#21262e',
+    marginTop: 20,
+    alignSelf: 'center',
   },
 });
