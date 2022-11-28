@@ -37,6 +37,7 @@ import UpdateInterest from '../components/UpdateInterest';
 import UpdateLocation from '../components/UpdateCity';
 import EditGender from '../components/UpdateGender';
 import EditGenderExpect from '../components/UpdateGenderExpect';
+import ChangePassword from '../screens/HomeScreen/ChangePassword';
 
 import {setUserInfo} from '../redux/actions/auth';
 import LogoTitle from '../components/LogoTitle';
@@ -174,6 +175,7 @@ const StackNavigator = () => {
             <Stack.Screen name="Update interest" component={UpdateInterest} />
             <Stack.Screen name="Update location" component={UpdateLocation} />
             <Stack.Screen name="Edit gender" component={EditGender} />
+            <Stack.Screen name="Change password" component={ChangePassword} />
             <Stack.Screen
               name="Edit gender expect"
               component={EditGenderExpect}

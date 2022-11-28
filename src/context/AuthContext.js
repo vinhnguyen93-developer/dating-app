@@ -110,6 +110,30 @@ export const AuthProvider = ({children}) => {
     }
   };
 
+  const changePassword = async (oldPassword, newPassword, navigation) => {
+    try {
+      auth()
+        .signInWithEmailAndPassword(user.email, oldPassword)
+        .then(() => {
+          const currentUser = auth().currentUser;
+          currentUser
+            .updatePassword(newPassword)
+            .then(() => {
+              Alert.alert('Change password success');
+              navigation.goBack();
+            })
+            .catch(error => {
+              Alert.alert(error);
+            });
+        })
+        .catch(error => {
+          Alert.alert('Wrong old password');
+        });
+    } catch (error) {
+      Alert.alert(error);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -120,6 +144,7 @@ export const AuthProvider = ({children}) => {
         loginWithGoogle,
         loginWithFacebook,
         logout,
+        changePassword,
         isLoading,
       }}>
       {children}

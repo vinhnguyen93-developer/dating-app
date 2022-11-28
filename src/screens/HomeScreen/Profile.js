@@ -59,6 +59,11 @@ const ProfileScreen = ({navigation}) => {
 
       <View style={styles.wrapButton}>
         <Pressable
+          onPress={() => navigation.navigate('Change password')}
+          style={[styles.buttonContainer, styles.boxShadow]}>
+          <Text style={styles.textButton}>Change Password</Text>
+        </Pressable>
+        <Pressable
           onPress={() => {
             dispatch({
               type: actionTypes.UPDATE_USER_LIKE_ME,
@@ -143,7 +148,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   wrapButton: {
-    marginHorizontal: 35,
+    marginHorizontal: 20,
   },
   buttonContainer: {
     paddingVertical: 14,
@@ -151,8 +156,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     width: '100%',
-    top: '60%',
+    top: '40%',
     backgroundColor: '#fff',
+    marginBottom: 15,
   },
   textButton: {
     textAlign: 'center',
