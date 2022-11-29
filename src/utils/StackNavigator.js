@@ -10,6 +10,7 @@ import {AuthContext} from '../context/AuthContext';
 import Onboarding from '../screens/AuthScreen/Onboarding';
 import Register from '../screens/AuthScreen/Register';
 import SignIn from '../screens/AuthScreen/SignIn';
+import ForgotPassword from '../screens/AuthScreen/ForgotPassword';
 
 // Screen with tab navigation
 import TabsNavigation from '../components/TabsNavigation';
@@ -100,6 +101,7 @@ const StackNavigator = () => {
         <Stack.Screen name="Onboarding" component={Onboarding} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="SignIn" component={SignIn} />
+        <Stack.Screen name="Forgot password" component={ForgotPassword} />
       </Stack.Navigator>
     );
   } else {

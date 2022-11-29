@@ -134,6 +134,17 @@ export const AuthProvider = ({children}) => {
     }
   };
 
+  const forgotPassword = async email => {
+    auth()
+      .sendPasswordResetEmail(email)
+      .then(() => {
+        Alert.alert('Please check your email...');
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -145,6 +156,7 @@ export const AuthProvider = ({children}) => {
         loginWithFacebook,
         logout,
         changePassword,
+        forgotPassword,
         isLoading,
       }}>
       {children}
