@@ -50,7 +50,7 @@ const MyPhoto = ({navigation}) => {
       cropping: true,
     })
       .then(image => {
-        const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
+        const imageUri = image.path;
         setImages([
           ...images.map((itemImage, indexImage) =>
             indexImage === index ? imageUri : itemImage,

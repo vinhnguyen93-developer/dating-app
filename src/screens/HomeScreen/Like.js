@@ -71,7 +71,7 @@ const LikeScreen = ({navigation}) => {
               source={require('../../assets/images/sad.png')}
               style={styles.imageEmpty}
             />
-            <Text style={styles.textEmpty}>Don't have user like you!</Text>
+            <Text style={styles.textEmpty}>No one likes you!</Text>
           </View>
         )}
       </ScrollView>

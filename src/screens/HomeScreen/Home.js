@@ -227,12 +227,21 @@ const Home = ({navigation}) => {
           }
           onSwiped={cardIndex => {
             setIndexImage(0);
+            dispatch(
+              getUsersSpecial(
+                profile?.city,
+                profile?.gender_expect,
+                profile?.uid,
+              ),
+            );
             dispatch({
               type: actionTypes.UPDATE_USER_LIKE_ME,
               payload: {
                 data: [],
               },
             });
+
+            console.log('update user like me');
           }}
           onSwipedAll={() => {
             console.log('swipe all');

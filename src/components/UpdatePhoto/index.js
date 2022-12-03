@@ -63,7 +63,7 @@ const UpdatePhotoView = ({route, navigation}) => {
       cropping: true,
     })
       .then(async image => {
-        const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
+        const imageUri = image.path;
         let filename = imageUri.substring(imageUri.lastIndexOf('/') + 1);
         const extension = filename.split('.').pop();
         const name = filename.split('.').slice(0, -1).join('.');
