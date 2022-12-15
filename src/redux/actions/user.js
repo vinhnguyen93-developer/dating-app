@@ -24,7 +24,9 @@ export const getUsers =
             .map(doc => doc.data())
             .filter(
               userPartner =>
-                userPartner.city === city && userPartner.gender === gender,
+                userPartner.city === city &&
+                userPartner.gender === gender &&
+                userPartner.uid !== userId,
             );
 
           dispatch({
